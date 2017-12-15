@@ -1,41 +1,45 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addPost, fetchCategoriesPosts } from '../actions';
 import '../scss/App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      backend: 'backend-data'
-    }
-  }
 
-  componentDidMount() {
-    const url = `${process.env.REACT_APP_BACKEND}/categories`;
-    console.log('fetching from url', url);
-    fetch(url, { headers: { 'Authorization': 'whatever-you-want' },
-                 credentials: 'include' } )
-      .then( (res) => { return(res.text()) })
-      .then((data) => {
-        this.setState({backend:data});
-      });
+  componentWillMount() {
+    this.props.fetchCategoriesPosts();
   }
 
   render() {
+    const { categories = [] } = this.props;
     return (
-      <div className="App">
-        <div className="App-header">
+      <div className="readable">
+        <div className="readable__hdr">
           <h2>Readable</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <p>
-          Talking to the backend yields these categories: <br/>
-          {this.state.backend}
+        <p className="readable__cats">
+          {categories.map((cat) => (
+            <li key={cat.name}>
+              {cat.name}
+            </li>
+          ))}
         </p>
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps( data ) {
+  const { categories, posts } = data.posts;
+  return {
+    posts,
+    categories,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addPost: (data) => dispatch(addPost(data)),
+    fetchCategoriesPosts: (data) => dispatch(fetchCategoriesPosts(data))
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);

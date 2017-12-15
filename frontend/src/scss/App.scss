@@ -1,19 +1,12 @@
-.App {
+.readable {
   text-align: center;
-}
+  &__hdr {
+    background-color: #222;
+    height: 60px;
+    padding: 20px;
+    color: white;
+  }
+  &__cats {
 
-.App-header {
-  background-color: #222;
-  height: 60px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  }
 }
