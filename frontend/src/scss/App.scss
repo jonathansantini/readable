@@ -1,12 +1,12 @@
-.readable {
-  text-align: center;
-  &__hdr {
-    background-color: #222;
-    height: 60px;
-    padding: 20px;
-    color: white;
-  }
-  &__cats {
+// App.scss
+// =================
 
-  }
-}
+// Globals
+@import "globals/_base.scss";
+@import "globals/_colors.scss";
+
+// Components
+@import "components/_header.scss";
+@import "components/_categories.scss";
+@import "components/_posts.scss";
+@import "components/_pageNotFound.scss";

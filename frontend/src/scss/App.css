@@ -1,7 +1,36 @@
-.readable {
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  font-family: sans-serif; }
+
+.readable .header {
+  background-color: #222;
+  height: 60px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  line-height: 56px; }
+
+.readable .categories {
+  padding: 20px;
+  border-bottom: 1px solid #ccc; }
+  .readable .categories__hdr {
+    margin-bottom: 12px; }
+  .readable .categories__list--item {
+    margin: 0 0 8px 36px; }
+
+.readable .posts {
+  padding: 20px;
+  border-bottom: 1px solid #ccc; }
+  .readable .posts__hdr {
+    margin-bottom: 12px; }
+  .readable .posts__list--item {
+    margin: 0 0 8px 36px; }
+
+.readable .page-not-found {
+  padding: 40px 0;
   text-align: center; }
-  .readable__hdr {
-    background-color: #222;
-    height: 60px;
-    padding: 20px;
-    color: white; }
+  .readable .page-not-found__copy {
+    padding: 0 0 12px; }

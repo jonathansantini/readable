@@ -1,0 +1,9 @@
+.readable {
+  .page-not-found {
+    padding: 40px 0;
+    text-align: center;
+    &__copy {
+      padding: 0 0 12px;
+    }
+  }
+}
