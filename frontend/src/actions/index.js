@@ -1,7 +1,16 @@
 import * as API from "../utils/API";
 
 export const RECEIVE_CATEGORIES_POSTS = 'RECEIVE_CATEGORIES_POSTS';
-export const ADD_POST = 'ADD_POST';
+export const SET_CATEGORY_NAME = 'SET_CATEGORY_NAME';
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const setCategory = category => dispatch => {
+  dispatch(setCategoryName(category))
+  return dispatch(fetchCategoriesPosts(category))
+};
 
 /**
  * Used to fetch both categories and posts
@@ -9,9 +18,9 @@ export const ADD_POST = 'ADD_POST';
  * to call receiveCategoriesPosts.
  * @returns {object} posts and categories
  */
-export const fetchCategoriesPosts = () => dispatch => (
+const fetchCategoriesPosts = path => dispatch => (
   API
-    .getCategoriesAndPosts()
+    .getCategoriesAndPosts(path)
     .then(data => dispatch(receiveCategoriesPosts(data)))
 );
 
@@ -19,28 +28,17 @@ export const fetchCategoriesPosts = () => dispatch => (
  * Action to receive posts and categories
  * @returns {object} action type with posts and categories
  */
-export function receiveCategoriesPosts (data) {
-  return {
-    type: RECEIVE_CATEGORIES_POSTS,
-    posts: data.posts,
-    categories: data.categories
-  }
-};
+export const receiveCategoriesPosts = data => ({
+  type: RECEIVE_CATEGORIES_POSTS,
+  posts: data.posts,
+  categories: data.categories
+});
 
 /**
- * Action to add new post
- * @returns {object} action type with post attributes
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
  */
-export function addPost ({ id, timestamp, title, body, author, category, voteScore, deleted }) {
-  return {
-    type: ADD_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted,
-  }
-}
+export const setCategoryName = data => ({
+    type: SET_CATEGORY_NAME,
+    category: data
+});

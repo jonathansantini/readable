@@ -1,53 +1,62 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
-import { addPost, fetchCategoriesPosts } from '../actions/index';
+import { setCategory, setCategoryName } from '../actions/index';
 import Header from '../components/Header';
-import PageNotFound from '../components/PageNotFound';
 import Categories from '../components/Categories';
 import Posts from '../components/Posts';
-import '../scss/App.css';
+import { withRouter } from 'react-router-dom'
 
 class App extends Component {
-
-  componentWillMount() {
-    this.props.fetchCategoriesPosts();
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: [],
+      posts: [],
+      category: {}
+    };
   }
-
+  componentWillMount() {
+    const { setCategory, category } = this.props;
+    setCategory(category.name);
+  }
+  handleCategoryChange = cat => {
+    this.props.setCategory(cat)
+  }
   render() {
     const { categories = [], posts = [] } = this.props;
+
     return (
-      <div className="readable">
+      <div className="content">
         <Header />
-        <Switch>
-          <Route exact path="/" render={() => (
-            <div className="index">
-              <Categories categories={categories} />
-              <Posts posts={posts} />
-            </div>
-          )}/>
-          <Route exact path="/test" render={() => (
-            <Categories categories={categories} />
-          )}/>
-          <Route component={PageNotFound}/>
-        </Switch>
+        <Categories categories={categories}
+          handleCategoryChange={this.handleCategoryChange}
+        />
+        <Posts posts={posts} />
       </div>
     );
   }
 }
 
-function mapStateToProps( data ) {
+function mapStateToProps( data, ownProps ) {
   const { categories, posts } = data;
+  const { match } = ownProps;
+  const name = (match && match.params) ? match.params[0] : '';
+
   return {
     posts,
     categories,
+    category: {
+      name
+    }
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addPost: (data) => dispatch(addPost(data)),
-    fetchCategoriesPosts: (data) => dispatch(fetchCategoriesPosts(data))
+    setCategory: (data) => dispatch(setCategory(data))
   }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default withRouter (
+  connect(mapStateToProps, mapDispatchToProps)(App)
+);

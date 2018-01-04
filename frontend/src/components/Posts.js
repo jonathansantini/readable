@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 /**
- * Functional component used to display the category list.
+ * Functional component used to display the posts list.
  * @extends React
  */
 function Posts (props) {

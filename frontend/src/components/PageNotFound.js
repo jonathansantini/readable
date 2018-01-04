@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 /**
  * Functional component used to display a page not found.
@@ -7,12 +8,15 @@ import { Link } from 'react-router-dom';
  */
 function PageNotFound () {
   return (
-    <div className="page-not-found">
-      <div className="page-not-found__copy">
-        Oops...Looks like something went wrong!
-      </div>
-      <div className="page-not-found__actions">
-        <Link to="/">Click here</Link> to return to the Readable homepage.
+    <div>
+      <Header />
+      <div className="page-not-found">
+        <div className="page-not-found__copy">
+          Oops...Looks like something went wrong!
+        </div>
+        <div className="page-not-found__actions">
+          <Link to="/">Click here</Link> to return to the Readable homepage.
+        </div>
       </div>
     </div>
   )

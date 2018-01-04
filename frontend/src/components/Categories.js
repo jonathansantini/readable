@@ -7,19 +7,20 @@ import { Link } from 'react-router-dom';
  * @extends React
  */
 function Categories (props) {
-  const { categories } = props;
+  const { categories, handleCategoryChange } = props;
 
   return (
     <div className="categories">
-      <h3 className="categories__hdr">Categories</h3>
+      <h3 className="categories__hdr">{`Categories`}</h3>
       <div className="categories__list">
         <ul className="categories__list--list">
           {categories.map((cat) => (
             <li key={cat.name} className="categories__list--item">
               <Link
-                to={`/categories/${cat.name}`}
-                className="categories__list--link">
-                {cat.name}
+                to={`/category/${cat.path}`}
+                onClick={() => handleCategoryChange(cat.path)}
+                data-category-path={cat.path}>
+                  {cat.name}
               </Link>
             </li>
           ))}

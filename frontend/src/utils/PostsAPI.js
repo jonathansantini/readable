@@ -16,11 +16,16 @@ function fetchAll () {
 
 function all () {
   return this.fetchAll()
-      .then(res => res.json())
-      .then(data => data.categories)
+    .then(res => res.json())
+    .then(data => data.categories)
+}
+
+function fetchCategoryPosts (cat) {
+  return fetch(`${root}/${cat}/posts`, { headers })
 }
 
 module.exports = {
+  fetchCategoryPosts,
   fetchAll,
   all,
 }

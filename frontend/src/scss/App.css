@@ -12,6 +12,9 @@ body {
   color: white;
   text-align: center;
   line-height: 56px; }
+  .readable .header__hdr--link {
+    color: #fff;
+    text-decoration: none; }
 
 .readable .categories {
   padding: 20px;

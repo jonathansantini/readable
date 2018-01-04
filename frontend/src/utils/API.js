@@ -1,16 +1,26 @@
 import * as CategoriesAPI from './CategoriesAPI';
 import * as PostsAPI from './PostsAPI';
 
-export const getCategoriesAndPosts = () =>
-    Promise.all([
-        CategoriesAPI.fetchAll(),
-        PostsAPI.fetchAll(),
-    ]).then(responses => Promise.all(responses.map(res => res.json())))
-      .then(res => {
-      const [ categories, posts ] = res;
+export const getCategoriesAndPosts = path => {
+  let promises = [
+    CategoriesAPI.fetchAll(),
+    PostsAPI.fetchAll(),
+  ];
 
-      return {
-        categories: categories.categories,
-        posts,
-      }
-    })
+  if (path) {
+    promises = [
+      CategoriesAPI.fetchAll(),
+      PostsAPI.fetchCategoryPosts(path),
+    ]
+  }
+  return Promise.all(promises).then(
+    responses => Promise.all(responses.map(res => res.json()))
+  )
+  .then(res => {
+    const [categories, posts] = res;
+    return {
+      categories: categories.categories,
+      posts,
+    }
+  })
+}
