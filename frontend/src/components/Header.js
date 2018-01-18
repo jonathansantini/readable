@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
  * Functional component used to display the header.
  * @extends React
  */
-function Header (props) {
+function Header () {
 
   return (
     <div className="header">

@@ -1,41 +1,81 @@
 import { combineReducers } from 'redux';
 
 import {
-  RECEIVE_CATEGORIES_POSTS,
-  SET_CATEGORY_NAME,
+  FETCH_CATEGORIES,
+  RECEIVE_CATEGORIES,
+  FETCH_POSTS,
+  RECEIVE_POSTS,
+  FETCH_COMMENTS,
+  RECEIVE_COMMENTS,
 } from "../actions";
 
-function posts (state = [], action) {
-  const { posts } = action;
-
+function posts (state = { byId: {}, allIds: [] }, action) {
+  const { posts, loaded } = action;
   switch(action.type) {
-    case RECEIVE_CATEGORIES_POSTS:
-      return [
-        ...posts,
-      ]
-    default:
-      return state;
-  }
-}
-
-function categories (state = [], action) {
-  switch(action.type) {
-    case RECEIVE_CATEGORIES_POSTS:
-      const { categories } = action;
-      return [
-        ...categories
-      ]
-    default:
-      return state;
-  }
-}
-
-function category (state = {}, action) {
-  switch(action.type) {
-    case SET_CATEGORY_NAME:
-      const { category } = action;
+    case FETCH_POSTS:
       return {
-        name: category
+        ...state,
+        loaded
+      }
+    case RECEIVE_POSTS:
+      return {
+        ...state,
+        loaded,
+        byId: posts.reduce((posts, post) => {
+          posts[post.id] = post;
+          return posts;
+        }, {}),
+        allIds: posts.map(post => post.id),
+      }
+    default:
+      return state;
+  }
+}
+
+function categories (state = { byId: {}, allIds: [] }, action) {
+  const { categories, loaded } = action;
+
+  switch(action.type) {
+    case FETCH_CATEGORIES:
+      return {
+        ...state,
+        loaded
+      }
+    case RECEIVE_CATEGORIES:
+      return {
+        ...state,
+        loaded,
+        byId: categories.reduce((categories, cat) => {
+          categories[cat.path] = cat;
+          return categories;
+        }, {}),
+        allIds: categories.map(cat => cat.path)
+      }
+    default:
+      return state;
+  }
+}
+
+function comments (state = { byId: {}, allIds: [] }, action) {
+  const { comments, loaded } = action;
+  switch(action.type) {
+    case FETCH_COMMENTS:
+      return {
+        ...state,
+        loaded
+      }
+    case RECEIVE_COMMENTS:
+      return  {
+        ...state,
+        loaded,
+        byId: Object.keys(comments).reduce((c, id) => {
+          comments[id].map((comment) => c[comment.id] = comment);
+          return c;
+        }, {}),
+        allIds: Object.keys(comments).reduce((c, id) => {
+          comments[id].map((comment) => c.push(comment.id));
+          return c;
+        }, [])
       }
     default:
       return state;
@@ -45,5 +85,5 @@ function category (state = {}, action) {
 export default combineReducers({
   posts,
   categories,
-  category
+  comments
 });

@@ -10,22 +10,26 @@ const headers = {
   'Authorization': token,
 };
 
-function fetchAll () {
+function getAll () {
   return fetch(`${root}/posts`, { headers })
 }
 
-function all () {
-  return this.fetchAll()
+function getCategoryPosts (cat) {
+  const path = cat === 'all'
+      ? `${root}/posts`
+      : `${root}/${cat}/posts`;
+  return fetch(path, { headers })
     .then(res => res.json())
-    .then(data => data.categories)
+    .then(data => data)
 }
 
-function fetchCategoryPosts (cat) {
-  return fetch(`${root}/${cat}/posts`, { headers })
+function getPost (postId) {
+  return fetch(`${root}/posts/${postId}`, { headers })
+    .then(res => res.json())
 }
 
 module.exports = {
-  fetchCategoryPosts,
-  fetchAll,
-  all,
+  getCategoryPosts,
+  getPost,
+  getAll
 }

@@ -1,59 +1,47 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setCategory, setCategoryName } from '../actions/index';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import { fetchCategories } from '../actions/index';
 import Header from '../components/Header';
-import Categories from '../components/Categories';
-import Posts from '../components/Posts';
-import { withRouter } from 'react-router-dom'
+import Nav from '../components/Nav';
+import PostDisplay from '../containers/PostDisplay';
+import PostsDisplay from '../containers/PostsDisplay';
+import FormDisplay from '../containers/FormDisplay';
+import * as CategoryHelper from '../utils/helpers/categories';
+import '../scss/App.css';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      categories: [],
-      posts: [],
-      category: {}
-    };
-  }
   componentWillMount() {
-    const { setCategory, category } = this.props;
-    setCategory(category.name);
-  }
-  handleCategoryChange = cat => {
-    this.props.setCategory(cat)
+    this.props.fetchCategories();
   }
   render() {
-    const { categories = [], posts = [] } = this.props;
-
     return (
-      <div className="content">
+      <div className="readable">
         <Header />
-        <Categories categories={categories}
-          handleCategoryChange={this.handleCategoryChange}
-        />
-        <Posts posts={posts} />
+        <Nav {...this.props} />
+        <Switch>
+          <Route path="/create/:type" component={FormDisplay} />
+          <Route path="/edit/:type/:id" component={FormDisplay} />
+          <Route path="/:category/:post_id" component={PostDisplay} />
+          <Route path="/:category" component={PostsDisplay} />
+          <Route path="/" component={PostsDisplay} />
+        </Switch>
       </div>
     );
   }
 }
 
-function mapStateToProps( data, ownProps ) {
-  const { categories, posts } = data;
-  const { match } = ownProps;
-  const name = (match && match.params) ? match.params[0] : '';
+function mapStateToProps( state ) {
+  const { categories } = state;
 
   return {
-    posts,
-    categories,
-    category: {
-      name
-    }
+    categories: CategoryHelper.getAllCategories(categories)
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    setCategory: (data) => dispatch(setCategory(data))
+    fetchCategories: data => fetchCategories(data, dispatch)
   }
 }
 

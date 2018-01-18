@@ -1,14 +1,9 @@
 .readable {
-  .categories {
+  .post {
     padding: 20px;
     border-bottom: 1px solid $color-grey;
     &__hdr {
       margin-bottom: 12px;
-    }
-    &__list {
-      &--item {
-        margin: 0 0 8px 36px;
-      }
     }
   }
 }

@@ -1,28 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import PostSummary from '../components/PostSummary';
 
 /**
  * Functional component used to display the posts list.
  * @extends React
  */
 function Posts (props) {
-  const { posts } = props;
-
+  const { posts , category } = props;
   return (
     <div className="posts">
-      <h3 className="posts__hdr">Posts</h3>
+      <h3 className="posts__hdr">{`Posts (${category})`}</h3>
       <div className="posts__list">
         <ul className="posts__list--list">
-          {posts.map((post) => (
-            <li key={post.title} className="posts__list--item">
-              <Link
-                to={`/posts/${post.id}`}
-                className="posts__list--link">
-                {post.title}
-              </Link>
+          {posts.length ? posts.map((post) => (
+            <li key={post.id} className="posts__list--item">
+              <PostSummary post={post}
+               category={category}
+              />
             </li>
-          ))}
+          )) : (
+            <li className="posts__item--item no-posts">
+              Be the first to add a post to this category.
+            </li>
+          )}
         </ul>
       </div>
     </div>
@@ -30,6 +31,7 @@ function Posts (props) {
 }
 
 Posts.propTypes = {
+  category: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired
 }
 
