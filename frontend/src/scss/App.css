@@ -20,25 +20,22 @@ li {
     text-decoration: none; }
 
 .readable .nav {
-  padding: 20px;
+  padding: 26px 20px 20px;
+  line-height: 0;
   border-bottom: 1px solid #ccc; }
   .readable .nav__list--item {
     display: inline-block;
     margin: 0 16px 8px 0; }
 
+.readable .posts__hdr {
+  margin: 20px 0 0 20px; }
+
+.readable .posts__list--item.no-posts {
+  margin: 20px; }
+
 .readable .post {
   padding: 20px;
   border-bottom: 1px solid #ccc; }
-  .readable .post__hdr {
-    margin-bottom: 12px; }
-
-.readable .posts {
-  padding: 20px;
-  border-bottom: 1px solid #ccc; }
-  .readable .posts__hdr {
-    margin-bottom: 12px; }
-  .readable .posts__list--item {
-    margin: 0 0 8px 0; }
 
 .readable .comments {
   padding: 20px;

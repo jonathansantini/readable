@@ -20,7 +20,7 @@ function Posts (props) {
               />
             </li>
           )) : (
-            <li className="posts__item--item no-posts">
+            <li className="posts__list--item no-posts">
               Be the first to add a post to this category.
             </li>
           )}
