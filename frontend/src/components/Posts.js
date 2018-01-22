@@ -13,7 +13,7 @@ function Posts (props) {
       <h3 className="posts__hdr">{`Posts (${category})`}</h3>
       <div className="posts__list">
         <ul className="posts__list--list">
-          {posts.length ? posts.map((post) => (
+          {posts.length ? posts.map(post => (
             <li key={post.id} className="posts__list--item">
               <PostSummary post={post}
                category={category}

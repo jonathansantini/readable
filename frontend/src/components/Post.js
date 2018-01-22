@@ -20,7 +20,7 @@ function Post (props) {
       </div>
       <div className="post__controls">
         <Link
-          to={`/${post.category}/${post.id}/edit`}
+          to={`/edit/post/${post.id}`}
           className="post__controls--link">
           Edit
         </Link>

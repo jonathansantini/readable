@@ -6,6 +6,7 @@ import {
   FETCH_POSTS,
   RECEIVE_POSTS,
   FETCH_COMMENTS,
+  RECEIVE_COMMENT,
   RECEIVE_COMMENTS,
 } from "../actions";
 
@@ -57,7 +58,7 @@ function categories (state = { byId: {}, allIds: [] }, action) {
 }
 
 function comments (state = { byId: {}, allIds: [] }, action) {
-  const { comments, loaded } = action;
+  const { comments, comment, loaded } = action;
   switch(action.type) {
     case FETCH_COMMENTS:
       return {
@@ -76,6 +77,15 @@ function comments (state = { byId: {}, allIds: [] }, action) {
           comments[id].map((comment) => c.push(comment.id));
           return c;
         }, [])
+      }
+    case RECEIVE_COMMENT:
+      return  {
+        ...state,
+        loaded,
+        byId: {
+          [comment.id]: comment
+        },
+        allIds: [comment.id]
       }
     default:
       return state;

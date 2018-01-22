@@ -7,6 +7,7 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
 
 /**
@@ -36,7 +37,7 @@ export const fetchPosts = (category, dispatch) => {
  * Sets post loaded to false then fetches post from API.
  * @returns {object} promise that received post
  */
-export const fetchPost = (id, dispatch) => {
+export const fetchPostById = (id, dispatch) => {
   dispatch(fetchingPost())
   return PostsAPI.getPost(id)
     .then(data => dispatch(receivePost([data])))
@@ -52,6 +53,19 @@ export const fetchComments = (ids, dispatch) => {
   return CommentsAPI.get(ids)
     .then(data => {
       dispatch(receiveComments(data))
+    })
+};
+
+/**
+ * Action to fetch comment by id.
+ * Sets posts loaded to false then fetches posts from API.
+ * @returns {object} promise that received posts
+ */
+export const fetchCommentById = (id, dispatch) => {
+  dispatch(fetchingComments())
+  return CommentsAPI.getComment(id)
+    .then(data => {
+      dispatch(receiveComment(data))
     })
 };
 
@@ -119,6 +133,16 @@ export const receivePost = data => ({
 export const fetchingComments = data => ({
   type: FETCH_COMMENTS,
   loaded: false
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const receiveComment = data => ({
+  type: RECEIVE_COMMENT,
+  loaded: true,
+  comment: data
 });
 
 /**

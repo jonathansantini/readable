@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 /**
  * Functional component used to display the posts list.
@@ -16,7 +17,11 @@ function Comment (props) {
         <span className="comment__info--score">{comment.voteScore}</span>
       </div>
       <div className="comment__actions">
-        <button className="comment__actions--edit">Edit</button>
+        <Link
+          to={`/edit/comment/${comment.id}`}
+          className="comment__actions--edit">
+          Edit
+        </Link>
         <button className="comment__actions--delete">Delete</button>
       </div>
     </div>

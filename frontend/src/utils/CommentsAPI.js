@@ -10,6 +10,11 @@ const headers = {
   'Authorization': token,
 };
 
+function getComment (commentId) {
+  return fetch(`${root}/comments/${commentId}`, { headers })
+    .then(res => res.json())
+}
+
 function get (ids = []) {
   const promises = [];
   ids.forEach((id) =>
@@ -28,5 +33,6 @@ function get (ids = []) {
 }
 
 module.exports = {
-  get
+  get,
+  getComment
 }

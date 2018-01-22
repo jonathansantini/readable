@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {} from '../actions/index';
+import { fetchPostById, fetchCommentById } from '../actions/index';
 import FormPost from '../components/FormPost';
 import FormComment from '../components/FormComment';
+import * as CategoryHelper from '../utils/helpers/categories';
 import * as FormHelper from '../utils/helpers/forms';
+import * as PostHelper from '../utils/helpers/posts';
+import * as CommentsHelper from '../utils/helpers/comments';
 
 class FormDisplay extends Component {
   componentDidMount() {
-    const { } = this.props;
+    const { id, isPost, fetchPostById, isComment, fetchCommentById } = this.props;
+    if (isPost) {
+      fetchPostById(id);
+    }
+    if (isComment) {
+      fetchCommentById(id);
+    }
   }
   render() {
-    const { isPost, isComment, isValid } = this.props;
+    const { categories, post, comment, isPost, isComment, isValid } = this.props;
 
     return (
-      <div>
+      <div className="form">
         {isValid && isPost && (
-          <FormPost />
+          <FormPost post={post}
+            categories={categories} />
         )}
 
         {isValid && isComment && (
-          <FormComment />
+          <FormComment comment={comment}
+            categories={categories} />
         )}
       </div>
     );
@@ -28,8 +39,14 @@ class FormDisplay extends Component {
 
 function mapStateToProps( state, ownProps ) {
   const type = ownProps.match.params.type || 'post';
+  const id = ownProps.match.params.id;
+  const { categories, posts, comments } = state;
 
   return {
+    id,
+    post: PostHelper.formatPost(posts),
+    comment: CommentsHelper.formatComment(id, comments),
+    categories: CategoryHelper.getAllCategories(categories),
     isValid: FormHelper.isValidFormType(type),
     isPost: FormHelper.isPostForm(type),
     isComment: FormHelper.isCommentForm(type)
@@ -38,6 +55,8 @@ function mapStateToProps( state, ownProps ) {
 
 function mapDispatchToProps(dispatch) {
   return {
+    fetchPostById: id => fetchPostById(id, dispatch),
+    fetchCommentById: id => fetchCommentById(id, dispatch)
   }
 }
 
