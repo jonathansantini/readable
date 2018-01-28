@@ -6,19 +6,24 @@ if (!token)
   token = localStorage.token = Math.random().toString(36).substr(-8)
 
 const headers = {
-  'Accept': 'application/json',
+  'Content-Type': 'application/json',
   'Authorization': token,
 };
 
 function getComment (commentId) {
-  return fetch(`${root}/comments/${commentId}`, { headers })
-    .then(res => res.json())
+  return fetch(`${root}/comments/${commentId}`, {
+    'method': 'GET',
+    headers
+  }).then(res => res.json())
 }
 
 function get (ids = []) {
   const promises = [];
   ids.forEach((id) =>
-    promises.push(fetch(`${root}/posts/${id}/comments`, { headers })));
+    promises.push(fetch(`${root}/posts/${id}/comments`, {
+      'method': 'GET',
+      headers
+    })));
   return Promise.all(promises)
     .then(responses =>
       Promise.all(responses.map(res => res.json()))
@@ -32,7 +37,25 @@ function get (ids = []) {
     })
 }
 
+function addComment (data) {
+  return fetch(`${root}/comments`, {
+    'method': 'POST',
+    'body': JSON.stringify(data),
+    headers
+  }).then(res => res.json())
+}
+
+function editComment (data) {
+  return fetch(`${root}/comments/${data.id}`, {
+    'method': 'PUT',
+    'body': JSON.stringify(data),
+    headers
+  }).then(res => res.json())
+}
+
 module.exports = {
   get,
-  getComment
+  getComment,
+  addComment,
+  editComment
 }

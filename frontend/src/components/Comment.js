@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
  * @extends React
  */
 function Comment (props) {
-  const { comment } = props;
+  const { comment, category, postId } = props;
 
   return (
     <div className="comment">
@@ -18,7 +18,7 @@ function Comment (props) {
       </div>
       <div className="comment__actions">
         <Link
-          to={`/edit/comment/${comment.id}`}
+          to={`/${category}/${postId}/edit/${comment.id}`}
           className="comment__actions--edit">
           Edit
         </Link>
@@ -29,7 +29,9 @@ function Comment (props) {
 }
 
 Comment.propTypes = {
-  comment: PropTypes.object.isRequired
+  category: PropTypes.string.isRequired,
+  comment: PropTypes.object.isRequired,
+  postId: PropTypes.string.isRequired
 }
 
 export default Comment;

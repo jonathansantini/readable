@@ -7,7 +7,7 @@ import Comment from '../components/Comment';
  * @extends React
  */
 function Comments (props) {
-  const { comments } = props;
+  const { comments, category, postId } = props;
 
   return (
     <div className="comments">
@@ -15,7 +15,9 @@ function Comments (props) {
       <ul className="comments__list">
         { comments.length ? comments.map((comment) => (
           <li className="comments__list--item" key={comment.id} >
-            <Comment comment={comment} />
+            <Comment category={category}
+              postId={postId}
+              comment={comment} />
           </li>
         )) : (
           <li className="comments__list--item no-comments">
@@ -28,7 +30,9 @@ function Comments (props) {
 }
 
 Comments.propTypes = {
-  comments: PropTypes.array.isRequired
+  category: PropTypes.string.isRequired,
+  comments: PropTypes.array.isRequired,
+  postId: PropTypes.string.isRequired
 }
 
 export default Comments;

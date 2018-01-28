@@ -3,20 +3,37 @@ import { combineReducers } from 'redux';
 import {
   FETCH_CATEGORIES,
   RECEIVE_CATEGORIES,
+  ADD_POST,
+  EDIT_POST,
   FETCH_POSTS,
+  RECEIVE_POST,
   RECEIVE_POSTS,
   FETCH_COMMENTS,
+  ADD_COMMENT,
+  EDIT_COMMENT,
   RECEIVE_COMMENT,
   RECEIVE_COMMENTS,
 } from "../actions";
 
 function posts (state = { byId: {}, allIds: [] }, action) {
-  const { posts, loaded } = action;
+  const { posts, post, loaded } = action;
+
   switch(action.type) {
+    case EDIT_POST:
+    case ADD_POST:
     case FETCH_POSTS:
       return {
         ...state,
         loaded
+      }
+    case RECEIVE_POST:
+      return {
+        ...state,
+        loaded,
+        byId: {
+          [post.id]: post
+        },
+        allIds: [post.id]
       }
     case RECEIVE_POSTS:
       return {
@@ -60,6 +77,8 @@ function categories (state = { byId: {}, allIds: [] }, action) {
 function comments (state = { byId: {}, allIds: [] }, action) {
   const { comments, comment, loaded } = action;
   switch(action.type) {
+    case ADD_COMMENT:
+    case EDIT_COMMENT:
     case FETCH_COMMENTS:
       return {
         ...state,

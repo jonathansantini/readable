@@ -6,7 +6,8 @@ import Header from '../components/Header';
 import Nav from '../components/Nav';
 import PostDisplay from '../containers/PostDisplay';
 import PostsDisplay from '../containers/PostsDisplay';
-import FormDisplay from '../containers/FormDisplay';
+import FormPostDisplay from '../containers/FormPostDisplay';
+import FormCommentDisplay from '../containers/FormCommentDisplay';
 import * as CategoryHelper from '../utils/helpers/categories';
 import '../scss/App.css';
 
@@ -20,11 +21,13 @@ class App extends Component {
         <Header />
         <Nav {...this.props} />
         <Switch>
-          <Route path="/create/:type" component={FormDisplay} />
-          <Route path="/edit/:type/:id" component={FormDisplay} />
-          <Route path="/:category/:post_id" component={PostDisplay} />
-          <Route path="/:category" component={PostsDisplay} />
-          <Route path="/" component={PostsDisplay} />
+          <Route exact path="/create/post" component={FormPostDisplay} />
+          <Route exact path="/:category" component={PostsDisplay} />
+          <Route exact path="/:category/:post_id" component={PostDisplay} />
+          <Route exact path="/:category/:post_id/edit" component={FormPostDisplay} />
+          <Route exact path="/:category/:post_id/create" component={FormCommentDisplay} />
+          <Route exact path="/:category/:post_id/edit/:comment_id" component={FormCommentDisplay} />
+          <Route exact path="/" component={PostsDisplay} />
         </Switch>
       </div>
     );

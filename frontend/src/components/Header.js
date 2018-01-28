@@ -1,23 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import AppBar from 'material-ui/AppBar';
+import { withRouter } from 'react-router-dom';
 
 /**
  * Functional component used to display the header.
  * @extends React
  */
-function Header () {
-
+function Header ({ history }) {
   return (
-    <div className="header">
-      <h2 className="header__hdr">
-        <Link
-        to="/"
-        className="header__hdr--link">
-          Readable
-        </Link>
-      </h2>
-    </div>
+    <AppBar title="readable"
+      onTitleClick={() => history.push('/')} />
   )
 }
 
-export default Header;
+export default withRouter(Header);

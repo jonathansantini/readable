@@ -13,12 +13,15 @@ class PostDisplay extends Component {
     fetchComments([postId]);
   }
   render() {
-    const { post, comments } = this.props;
+    const { post, postId, comments, category } = this.props;
 
     return (
       <div>
         <Post post={post} />
-        <Comments comments={comments} />
+        <Comments comments={comments}
+          postId={postId}
+          category={category}
+        />
       </div>
     );
   }

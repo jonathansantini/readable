@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 /**
  * Functional component used to display the post form.
@@ -9,58 +11,74 @@ class FormComment extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      comment: {
+        id: '',
+        body: '',
+        author: ''
+      }
     };
 
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   componentWillReceiveProps(prevProps) {
     // Set comment to state if it is passed via props
-    this.setState(prevProps.comment);
+    const cData = prevProps.comment || {};
+    const comment = cData.id ? cData : this.state.comment;
+
+    this.setState({
+      comment
+    })
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.state)
+    if (this.state.comment.id) {
+      this.props.handleEditComment(this.state.comment);
+    } else {
+      this.props.handleAddComment(this.state.comment);
+    }
   }
 
-  handleChange(e) {
-    this.setState({
-      [e.target.name]: e.target.value
+  handleTextChange(e) {
+    const target = e.target;
+    this.setState((prevState) => {
+      let comment = prevState.comment;
+      comment[target.name] = target.value;
+      return {
+        comment
+      }
     })
   }
 
   render() {
-    const { categories=[] } = this.props;
-
     return (
-      <div className="post-form">
+      <div className="form">
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="msg">Message</label>
-            <textarea onChange={this.handleChange} value={this.state.body} name="body" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="author">Author</label>
-            <input name="author" onChange={this.handleChange} value={this.state.author} type="text" />
-          </div>
-          <div className="form-group">
-            <label htmlFor="category">Category</label>
-            <select onChange={this.handleChange} value={this.state.category} name="category">
-              { categories.map(cat => (
-                <option key={cat.path} value={cat.path}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
-          <input type="submit" value="submit" />
+          <TextField
+            floatingLabelText="Message"
+            onChange={this.handleTextChange}
+            value={this.state.comment.body}
+            name="body"
+          /><br />
+          <TextField
+            floatingLabelText="Author"
+            onChange={this.handleTextChange}
+            value={this.state.comment.author}
+            name="author"
+          /><br />
+          <RaisedButton type="submit" label="submit" />
         </form>
       </div>
     )
   }
 }
+
 FormComment.propTypes = {
-  categories: PropTypes.array.isRequired
+  comment: PropTypes.object.isRequired,
+  handleAddComment: PropTypes.func.isRequired,
+  handleEditComment: PropTypes.func.isRequired,
 }
 
 export default FormComment;

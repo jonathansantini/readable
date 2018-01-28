@@ -6,12 +6,15 @@ if (!token)
   token = localStorage.token = Math.random().toString(36).substr(-8)
 
 const headers = {
-  'Accept': 'application/json',
+  'Content-Type': 'application/json',
   'Authorization': token,
 };
 
 function fetchAll () {
-  return fetch(`${root}/categories`, { headers })
+  return fetch(`${root}/categories`, {
+    'method': 'GET',
+    headers
+  })
 }
 
 function all () {

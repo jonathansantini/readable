@@ -1,11 +1,17 @@
 import * as PostsAPI from '../utils/PostsAPI';
 import * as CommentsAPI from '../utils/CommentsAPI';
 import * as CategoriesAPI from '../utils/CategoriesAPI';
+import * as Helpers from '../utils/helpers/forms';
 
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+export const ADD_POST = 'ADD_POST';
+export const EDIT_POST = 'EDIT_POST';
 export const FETCH_POSTS = 'FETCH_POSTS';
+export const RECEIVE_POST = 'RECEIVE_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const ADD_COMMENT = 'ADD_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
@@ -40,7 +46,7 @@ export const fetchPosts = (category, dispatch) => {
 export const fetchPostById = (id, dispatch) => {
   dispatch(fetchingPost())
   return PostsAPI.getPost(id)
-    .then(data => dispatch(receivePost([data])))
+    .then(data => dispatch(receivePost(data)))
 };
 
 /**
@@ -64,16 +70,77 @@ export const fetchComments = (ids, dispatch) => {
 export const fetchCommentById = (id, dispatch) => {
   dispatch(fetchingComments())
   return CommentsAPI.getComment(id)
-    .then(data => {
-      dispatch(receiveComment(data))
-    })
+    .then(data => dispatch(receiveComment(data)))
 };
+
+export const handleAddPost = (data, dispatch, ownProps) => {
+  const { title, body, author, category } = data;
+  const post = {
+    id: Helpers.generateRandomPostId(),
+    timestamp: new Date().valueOf(),
+    title,
+    body,
+    author,
+    category,
+  }
+  dispatch(addingPost())
+  return PostsAPI.addPost(post)
+    .then(data => dispatch(receivePost(data)))
+    .then(ownProps.history.push(`/${category}`))
+}
+
+export const handleEditPost = (data, dispatch, ownProps) => {
+  const { title, body, category, id } = data;
+  const post = {
+    id,
+    title,
+    body,
+  }
+  dispatch(editingPost())
+  return PostsAPI.editPost(post)
+    .then(data => dispatch(receivePost(data)))
+    .then(ownProps.history.push(`/${category}`))
+}
+
+export const handleAddComment = (data, dispatch, ownProps) => {
+  const { body, author } = data;
+  const category = ownProps.match.params.category;
+  const parentId = ownProps.match.params.post_id;
+
+  const comment = {
+    id: Helpers.generateRandomPostId(),
+    timestamp: new Date().valueOf(),
+    body,
+    author,
+    parentId,
+  }
+  dispatch(addingComment())
+  return CommentsAPI.addComment(comment)
+    .then(data => dispatch(receiveComment(data)))
+    .then(ownProps.history.push(`/${category}/${parentId}`))
+}
+
+export const handleEditComment = (data, dispatch, ownProps) => {
+  const { id, body, author, parentId } = data;
+  const category = ownProps.match.params.category;
+
+  const comment = {
+    timestamp: new Date().valueOf(),
+    id,
+    body,
+    author
+  }
+  dispatch(editingComment())
+  return CommentsAPI.editComment(comment)
+    .then(data => dispatch(receiveComment(data)))
+    .then(ownProps.history.push(`/${category}/${parentId}`))
+}
 
 /**
  * Action to receive posts and categories
  * @returns {object} action type with posts and categories
  */
-export const fetchingCategories = data => ({
+export const fetchingCategories = () => ({
   type: FETCH_CATEGORIES,
   loaded: false
 });
@@ -92,7 +159,7 @@ export const receiveCategories = data => ({
  * Action to receive posts and categories
  * @returns {object} action type with posts and categories
  */
-export const fetchingPosts = data => ({
+export const fetchingPosts = () => ({
   type: FETCH_POSTS,
   loaded: false
 });
@@ -111,7 +178,7 @@ export const receivePosts = data => ({
  * Action to receive posts and categories
  * @returns {object} action type with posts and categories
  */
-export const fetchingPost = data => ({
+export const fetchingPost = () => ({
   type: FETCH_POSTS,
   loaded: false
 });
@@ -121,8 +188,8 @@ export const fetchingPost = data => ({
  * @returns {object} action type with posts and categories
  */
 export const receivePost = data => ({
-  type: RECEIVE_POSTS,
-  posts: data,
+  type: RECEIVE_POST,
+  post: data,
   loaded: true
 });
 
@@ -130,7 +197,7 @@ export const receivePost = data => ({
  * Action to receive posts and categories
  * @returns {object} action type with posts and categories
  */
-export const fetchingComments = data => ({
+export const fetchingComments = () => ({
   type: FETCH_COMMENTS,
   loaded: false
 });
@@ -153,4 +220,40 @@ export const receiveComments = data => ({
   type: RECEIVE_COMMENTS,
   loaded: true,
   comments: data
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const addingPost = () => ({
+  type: ADD_POST,
+  loaded: false
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const editingPost = () => ({
+  type: EDIT_POST,
+  loaded: false
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const addingComment = () => ({
+  type: ADD_COMMENT,
+  loaded: false
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const editingComment = () => ({
+  type: EDIT_COMMENT,
+  loaded: false
 });

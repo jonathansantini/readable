@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createLogger } from 'redux-logger';
@@ -22,7 +23,9 @@ const store = createStore(
 
 ReactDOM.render(
   <Router>
-    <Root store={store} />
+    <MuiThemeProvider>
+      <Root store={store} />
+    </MuiThemeProvider>
   </Router>
 , document.getElementById('root'));
 registerServiceWorker();

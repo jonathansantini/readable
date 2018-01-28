@@ -43,6 +43,9 @@ li {
   .readable .comments__hdr {
     margin-bottom: 12px; }
 
+.readable .form {
+  padding: 0 20px; }
+
 .readable .page-not-found {
   padding: 40px 0;
   text-align: center; }

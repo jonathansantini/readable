@@ -1,5 +1,5 @@
 export function formatComment (id, comments) {
-  return comments.byId && id ? comments.byId[id] : {};
+  return comments.byId && id && comments.byId[id] ? comments.byId[id] : {};
 }
 
 export function formatComments (comments) {
