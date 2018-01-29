@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "is-fullwidth-code-point": "^2.0.0",
+    "material-ui": "^0.20.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.6",

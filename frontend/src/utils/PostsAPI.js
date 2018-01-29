@@ -48,10 +48,18 @@ function editPost (data) {
   }).then(res => res.json())
 }
 
+function deletePost (id) {
+  return fetch(`${root}/posts/${id}`, {
+    'method': 'DELETE',
+    headers
+  })
+}
+
 module.exports = {
   getCategoryPosts,
   getPost,
   getAll,
   addPost,
-  editPost
+  editPost,
+  deletePost
 }

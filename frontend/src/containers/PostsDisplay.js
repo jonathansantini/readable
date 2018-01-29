@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchPosts } from '../actions/index';
+import { fetchPosts, deletePost } from '../actions/index';
 import Posts from '../components/Posts';
 import * as PostsHelper from '../utils/helpers/posts';
 
@@ -17,17 +17,18 @@ class PostsDisplay extends Component {
     }
   }
   render() {
-    const { posts, category } = this.props;
+    const { posts, category, deletePost } = this.props;
     return (
       <Posts posts={posts}
         category={category}
+        deletePost={deletePost}
       />
     );
   }
 }
 
 function mapStateToProps( state, ownProps ) {
-  const category = ownProps.match.params.category || 'all';
+  const category = ownProps.match.params.category;
   const { posts } = state;
 
   return {
@@ -38,7 +39,8 @@ function mapStateToProps( state, ownProps ) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPosts: data => fetchPosts(data, dispatch)
+    deletePost: data => deletePost(data, dispatch),
+    fetchPosts: data => fetchPosts(data, dispatch),
   }
 }
 

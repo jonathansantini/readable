@@ -53,9 +53,17 @@ function editComment (data) {
   }).then(res => res.json())
 }
 
+function deleteComment (id) {
+  return fetch(`${root}/comments/${id}`, {
+    'method': 'DELETE',
+    headers
+  })
+}
+
 module.exports = {
   get,
   getComment,
   addComment,
-  editComment
+  editComment,
+  deleteComment
 }

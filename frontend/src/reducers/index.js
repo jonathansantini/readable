@@ -5,18 +5,20 @@ import {
   RECEIVE_CATEGORIES,
   ADD_POST,
   EDIT_POST,
+  DELETE_POST,
   FETCH_POSTS,
   RECEIVE_POST,
   RECEIVE_POSTS,
   FETCH_COMMENTS,
   ADD_COMMENT,
   EDIT_COMMENT,
+  DELETE_COMMENT,
   RECEIVE_COMMENT,
   RECEIVE_COMMENTS,
 } from "../actions";
 
 function posts (state = { byId: {}, allIds: [] }, action) {
-  const { posts, post, loaded } = action;
+  const { posts, post, loaded, id } = action;
 
   switch(action.type) {
     case EDIT_POST:
@@ -25,6 +27,17 @@ function posts (state = { byId: {}, allIds: [] }, action) {
       return {
         ...state,
         loaded
+      }
+    case DELETE_POST:
+      return {
+        ...state,
+        byId: {
+          ...state['byId'],
+          [id]: {
+            ...state['byId'][id],
+            deleted: true
+          }
+        },
       }
     case RECEIVE_POST:
       return {
@@ -75,7 +88,8 @@ function categories (state = { byId: {}, allIds: [] }, action) {
 }
 
 function comments (state = { byId: {}, allIds: [] }, action) {
-  const { comments, comment, loaded } = action;
+  const { comments, comment, loaded, id } = action;
+
   switch(action.type) {
     case ADD_COMMENT:
     case EDIT_COMMENT:
@@ -83,6 +97,17 @@ function comments (state = { byId: {}, allIds: [] }, action) {
       return {
         ...state,
         loaded
+      }
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        byId: {
+          ...state['byId'],
+          [id]: {
+            ...state['byId'][id],
+            deleted: true
+          }
+        },
       }
     case RECEIVE_COMMENTS:
       return  {

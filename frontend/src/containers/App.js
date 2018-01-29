@@ -21,8 +21,8 @@ class App extends Component {
         <Header />
         <Nav {...this.props} />
         <Switch>
-          <Route exact path="/create/post" component={FormPostDisplay} />
           <Route exact path="/:category" component={PostsDisplay} />
+          <Route exact path="/:category/create" component={FormPostDisplay} />
           <Route exact path="/:category/:post_id" component={PostDisplay} />
           <Route exact path="/:category/:post_id/edit" component={FormPostDisplay} />
           <Route exact path="/:category/:post_id/create" component={FormCommentDisplay} />

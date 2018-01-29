@@ -67,7 +67,7 @@ class FormPost extends Component {
   }
 
   render() {
-    const { categories=[] } = this.props;
+    const { categories=[], category } = this.props;
 
     return (
       <div className="form">
@@ -94,7 +94,7 @@ class FormPost extends Component {
           /><br />
           <SelectField
             floatingLabelText="Category"
-            value={this.state.post.category}
+            value={category || this.state.post.category}
             onChange={this.handleSelectChange}
             name="category"
           >

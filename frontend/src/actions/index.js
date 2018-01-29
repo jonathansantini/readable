@@ -7,6 +7,8 @@ export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const ADD_POST = 'ADD_POST';
 export const EDIT_POST = 'EDIT_POST';
+export const DELETE_POST = 'DELETE_POST';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const RECEIVE_POST = 'RECEIVE_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
@@ -50,16 +52,24 @@ export const fetchPostById = (id, dispatch) => {
 };
 
 /**
+ * Action to fetch a post by id.
+ * Sets post loaded to false then fetches post from API.
+ * @returns {object} promise that received post
+ */
+export const deletePost = (id, dispatch) => {
+  return PostsAPI.deletePost(id)
+    .then(() => dispatch(deletedPost(id)))
+};
+
+/**
  * Action to fetch comments.
  * Sets posts loaded to false then fetches posts from API.
  * @returns {object} promise that received posts
  */
 export const fetchComments = (ids, dispatch) => {
-  dispatch(fetchingComments())
+  dispatch(fetchingComments());
   return CommentsAPI.get(ids)
-    .then(data => {
-      dispatch(receiveComments(data))
-    })
+    .then(data => dispatch(receiveComments(data)));
 };
 
 /**
@@ -68,7 +78,7 @@ export const fetchComments = (ids, dispatch) => {
  * @returns {object} promise that received posts
  */
 export const fetchCommentById = (id, dispatch) => {
-  dispatch(fetchingComments())
+  dispatch(fetchingComments());
   return CommentsAPI.getComment(id)
     .then(data => dispatch(receiveComment(data)))
 };
@@ -82,12 +92,12 @@ export const handleAddPost = (data, dispatch, ownProps) => {
     body,
     author,
     category,
-  }
+  };
   dispatch(addingPost())
   return PostsAPI.addPost(post)
     .then(data => dispatch(receivePost(data)))
     .then(ownProps.history.push(`/${category}`))
-}
+};
 
 export const handleEditPost = (data, dispatch, ownProps) => {
   const { title, body, category, id } = data;
@@ -135,6 +145,16 @@ export const handleEditComment = (data, dispatch, ownProps) => {
     .then(data => dispatch(receiveComment(data)))
     .then(ownProps.history.push(`/${category}/${parentId}`))
 }
+
+/**
+ * Action to fetch a post by id.
+ * Sets post loaded to false then fetches post from API.
+ * @returns {object} promise that received post
+ */
+export const deleteComment = (id, dispatch) => {
+  return CommentsAPI.deleteComment(id)
+    .then(() => dispatch(deletedComment(id)))
+};
 
 /**
  * Action to receive posts and categories
@@ -191,6 +211,15 @@ export const receivePost = data => ({
   type: RECEIVE_POST,
   post: data,
   loaded: true
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const deletedPost = id => ({
+  type: DELETE_POST,
+  id
 });
 
 /**
@@ -256,4 +285,13 @@ export const addingComment = () => ({
 export const editingComment = () => ({
   type: EDIT_COMMENT,
   loaded: false
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const deletedComment = id => ({
+  type: DELETE_COMMENT,
+  id
 });

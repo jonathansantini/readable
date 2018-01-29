@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
  * @extends React
  */
 function Comment (props) {
-  const { comment, category, postId } = props;
+  const { comment, category, postId, deleteComment } = props;
 
   return (
     <div className="comment">
@@ -22,7 +22,7 @@ function Comment (props) {
           className="comment__actions--edit">
           Edit
         </Link>
-        <button className="comment__actions--delete">Delete</button>
+        <button className="comment__actions--delete" onClick={() => deleteComment(comment.id)}>Delete</button>
       </div>
     </div>
   )
@@ -31,7 +31,8 @@ function Comment (props) {
 Comment.propTypes = {
   category: PropTypes.string.isRequired,
   comment: PropTypes.object.isRequired,
-  postId: PropTypes.string.isRequired
+  postId: PropTypes.string.isRequired,
+  deleteComment: PropTypes.func.isRequired
 }
 
 export default Comment;

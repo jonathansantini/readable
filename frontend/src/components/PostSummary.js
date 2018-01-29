@@ -7,11 +7,17 @@ import { Link } from 'react-router-dom';
  * @extends React
  */
 function PostSummary (props) {
-  const { post } = props;
+  const { post, deletePost } = props;
 
   return (
     <div className="post">
-      <h3 className="post__hdr">{post.title}</h3>
+      <h3 className="post__hdr">
+        <Link
+          to={`/${post.category}/${post.id}`}
+          className="post__controls--link">
+          {post.title}
+        </Link>
+      </h3>
       <div className="post__body">{post.body}</div>
       <div className="post__info">
         <span className="post__info--author">{post.author}</span>
@@ -20,17 +26,19 @@ function PostSummary (props) {
       </div>
       <div className="post__controls">
         <Link
-          to={`/${post.category}/${post.id}`}
+          to={`/${post.category}/${post.id}/edit`}
           className="post__controls--link">
           Edit
         </Link>
+        <button className="post_controls--delete" onClick={() => deletePost(post.id)}>Delete</button>
       </div>
     </div>
   )
 }
 
 PostSummary.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  deletePost: PropTypes.func.isRequired
 }
 
 export default PostSummary;

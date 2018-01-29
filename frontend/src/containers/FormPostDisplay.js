@@ -19,10 +19,11 @@ class FormPostDisplay extends Component {
   }
 
   render() {
-    const { post={}, categories=[], handleAddPost, handleEditPost } = this.props;
+    const { post={}, categories=[], category, handleAddPost, handleEditPost } = this.props;
 
     return (
       <FormPost post={post}
+        category={category}
         categories={categories}
         handleAddPost={handleAddPost}
         handleEditPost={handleEditPost}
@@ -35,10 +36,12 @@ function mapStateToProps( state, ownProps ) {
   const { categories, posts } = state;
   const post = PostHelper.formatPost(posts);
   const postId = ownProps.match.params.post_id;
+  const category = ownProps.match.params.category;
 
   return {
     post,
     postId,
+    category,
     categories: CategoryHelper.getAllCategories(categories)
   }
 }
