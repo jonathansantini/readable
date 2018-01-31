@@ -10,18 +10,20 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
  * @extends React
  */
 function Posts (props) {
-  const { posts=[] , category, deletePost } = props;
+  const { posts=[] , category, deletePost, handlePostVote } = props;
+  const subCat = category ? ` (${category})` : ``;
 
   return (
     <div className="posts">
-      <h3 className="posts__hdr">{`Posts (${category})`}</h3>
+      <h3 className="posts__hdr">{`Posts${subCat}`}</h3>
       <div className="posts__list">
         <ul className="posts__list--list">
-          {posts.length ? posts.map(post => !post.deleted && (
+          {posts.length ? posts.map(post => (
             <li key={post.id} className="posts__list--item">
               <PostSummary post={post}
                category={category}
                deletePost={deletePost}
+               handlePostVote={handlePostVote}
               />
             </li>
           )) : (
@@ -33,7 +35,7 @@ function Posts (props) {
       </div>
       <div className="posts__controls">
         <Link
-          to={`/${category}/create`}
+          to={ category ? `/${category}/create` : `/create-post` }
           className="posts__controls--link">
           <RaisedButton
             label="Add Post"
@@ -47,9 +49,9 @@ function Posts (props) {
 }
 
 Posts.propTypes = {
-  category: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
-  deletePost: PropTypes.func.isRequired
+  deletePost: PropTypes.func.isRequired,
+  handlePostVote: PropTypes.func.isRequired
 }
 
 export default Posts;

@@ -60,10 +60,19 @@ function deleteComment (id) {
   })
 }
 
+function setVote (data) {
+  return fetch(`${root}/comments/${data.id}`, {
+    'method': 'POST',
+    'body': JSON.stringify(data),
+    headers
+  }).then(res => res.json())
+}
+
 module.exports = {
   get,
   getComment,
   addComment,
   editComment,
-  deleteComment
+  deleteComment,
+  setVote
 }

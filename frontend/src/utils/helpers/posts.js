@@ -6,7 +6,10 @@ export function formatPost (posts) {
 
 export function formatPosts (posts) {
   return posts.allIds ? posts.allIds.reduce((p, id) => {
-    p.push(posts.byId[id]);
+    const post = posts.byId[id];
+    if (!post.deleted) {
+      p.push(post);
+    }
     return p;
   }, []) : [];
 }

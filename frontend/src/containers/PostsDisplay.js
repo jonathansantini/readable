@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchPosts, deletePost } from '../actions/index';
+import { fetchPosts, deletePost, handlePostVote } from '../actions/index';
 import Posts from '../components/Posts';
 import * as PostsHelper from '../utils/helpers/posts';
 
@@ -17,12 +17,17 @@ class PostsDisplay extends Component {
     }
   }
   render() {
-    const { posts, category, deletePost } = this.props;
+    const { posts, category, deletePost, postsLoaded, handlePostVote } = this.props;
     return (
-      <Posts posts={posts}
-        category={category}
-        deletePost={deletePost}
-      />
+      <div>
+        { postsLoaded && (
+          <Posts posts={posts}
+           category={category}
+           deletePost={deletePost}
+           handlePostVote={handlePostVote}
+          />
+        )}
+      </div>
     );
   }
 }
@@ -33,7 +38,8 @@ function mapStateToProps( state, ownProps ) {
 
   return {
     category,
-    posts: PostsHelper.formatPosts(posts)
+    posts: PostsHelper.formatPosts(posts),
+    postsLoaded: posts.loaded
   }
 }
 
@@ -41,6 +47,7 @@ function mapDispatchToProps(dispatch) {
   return {
     deletePost: data => deletePost(data, dispatch),
     fetchPosts: data => fetchPosts(data, dispatch),
+    handlePostVote: data => handlePostVote(data, dispatch)
   }
 }
 

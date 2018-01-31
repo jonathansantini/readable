@@ -4,7 +4,10 @@ export function formatComment (id, comments) {
 
 export function formatComments (comments) {
   return comments.allIds ? comments.allIds.reduce((c, id) => {
-    c.push(comments.byId[id]);
+    const comment = comments.byId[id];
+    if (!comment.deleted) {
+      c.push(comment);
+    }
     return c;
   }, []) : [];
 }

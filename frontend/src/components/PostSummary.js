@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import VoteScore from '../components/VoteScore';
 
 /**
  * Functional component used to display the posts list.
  * @extends React
  */
 function PostSummary (props) {
-  const { post, deletePost } = props;
+  const { post, deletePost, handlePostVote } = props;
 
   return (
     <div className="post">
@@ -31,6 +32,7 @@ function PostSummary (props) {
           Edit
         </Link>
         <button className="post_controls--delete" onClick={() => deletePost(post.id)}>Delete</button>
+        <VoteScore id={post.id} handleVote={handlePostVote} />
       </div>
     </div>
   )
@@ -38,7 +40,8 @@ function PostSummary (props) {
 
 PostSummary.propTypes = {
   post: PropTypes.object.isRequired,
-  deletePost: PropTypes.func.isRequired
+  deletePost: PropTypes.func.isRequired,
+  handlePostVote: PropTypes.func.isRequired
 }
 
 export default PostSummary;

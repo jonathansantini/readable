@@ -10,18 +10,19 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
  * @extends React
  */
 function Comments (props) {
-  const { comments, category, postId, deleteComment } = props;
+  const { comments, category, postId, deleteComment, handleCommentVote } = props;
 
   return (
     <div className="comments">
       <h3 className="comments__hdr">Comments</h3>
       <ul className="comments__list">
-        { comments.length ? comments.map((comment) => !comment.deleted && (
+        { comments.length ? comments.map((comment) => (
           <li className="comments__list--item" key={comment.id} >
             <Comment category={category}
               postId={postId}
               comment={comment}
               deleteComment={deleteComment}
+              handleCommentVote={handleCommentVote}
             />
           </li>
         )) : (
@@ -49,7 +50,8 @@ Comments.propTypes = {
   category: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   postId: PropTypes.string.isRequired,
-  deleteComment: PropTypes.func.isRequired
+  deleteComment: PropTypes.func.isRequired,
+  handleCommentVote: PropTypes.func.isRequired
 }
 
 export default Comments;

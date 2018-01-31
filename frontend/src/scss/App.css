@@ -3,7 +3,7 @@
   padding: 0; }
 
 body {
-  font-family: sans-serif; }
+  font-family: "Roboto", sans-serif; }
 
 li {
   list-style-type: none; }
@@ -56,3 +56,10 @@ li {
   text-align: center; }
   .readable .page-not-found__copy {
     padding: 0 0 12px; }
+
+.readable .voteScore {
+  display: inline-block;
+  font-size: 12px; }
+  .readable .voteScore__txt {
+    margin: 0 12px;
+    vertical-align: middle; }

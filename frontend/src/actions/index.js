@@ -8,12 +8,14 @@ export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
 export const ADD_POST = 'ADD_POST';
 export const EDIT_POST = 'EDIT_POST';
 export const DELETE_POST = 'DELETE_POST';
+export const VOTE_POST = 'VOTE_POST';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const RECEIVE_POST = 'RECEIVE_POST';
 export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const VOTE_COMMENT = 'VOTE_COMMENT';
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS';
@@ -85,6 +87,7 @@ export const fetchCommentById = (id, dispatch) => {
 
 export const handleAddPost = (data, dispatch, ownProps) => {
   const { title, body, author, category } = data;
+
   const post = {
     id: Helpers.generateRandomPostId(),
     timestamp: new Date().valueOf(),
@@ -110,6 +113,11 @@ export const handleEditPost = (data, dispatch, ownProps) => {
   return PostsAPI.editPost(post)
     .then(data => dispatch(receivePost(data)))
     .then(ownProps.history.push(`/${category}`))
+}
+
+export const handlePostVote = (data, dispatch) => {
+  return PostsAPI.setVote(data)
+    .then(data => dispatch(setPostVote(data)))
 }
 
 export const handleAddComment = (data, dispatch, ownProps) => {
@@ -144,6 +152,11 @@ export const handleEditComment = (data, dispatch, ownProps) => {
   return CommentsAPI.editComment(comment)
     .then(data => dispatch(receiveComment(data)))
     .then(ownProps.history.push(`/${category}/${parentId}`))
+}
+
+export const handleCommentVote = (data, dispatch) => {
+  return CommentsAPI.setVote(data)
+    .then(data => dispatch(setCommentVote(data)))
 }
 
 /**
@@ -273,6 +286,16 @@ export const editingPost = () => ({
  * Action to receive posts and categories
  * @returns {object} action type with posts and categories
  */
+export const setPostVote = data => ({
+  type: VOTE_POST,
+  loaded: true,
+  post: data
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
 export const addingComment = () => ({
   type: ADD_COMMENT,
   loaded: false
@@ -294,4 +317,14 @@ export const editingComment = () => ({
 export const deletedComment = id => ({
   type: DELETE_COMMENT,
   id
+});
+
+/**
+ * Action to receive posts and categories
+ * @returns {object} action type with posts and categories
+ */
+export const setCommentVote = data => ({
+  type: VOTE_COMMENT,
+  loaded: true,
+  comment: data
 });

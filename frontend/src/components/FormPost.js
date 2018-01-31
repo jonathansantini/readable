@@ -30,9 +30,13 @@ class FormPost extends Component {
     // Set post to state if it is passed via props
     const postData = prevProps.post || {};
     const post = postData.id ? postData : this.state.post;
+    const category = prevProps.category ? prevProps.category : postData.category;
 
     this.setState({
-      post
+      post: {
+        ...post,
+        category
+      }
     });
   }
 
@@ -68,6 +72,7 @@ class FormPost extends Component {
 
   render() {
     const { categories=[], category } = this.props;
+    const { post } = this.state;
 
     return (
       <div className="form">
@@ -75,13 +80,13 @@ class FormPost extends Component {
           <TextField
             floatingLabelText="Title"
             onChange={this.handleTextChange}
-            value={this.state.post.title}
+            value={post.title}
             name="title"
           /><br />
           <TextField
             floatingLabelText="Message"
             onChange={this.handleTextChange}
-            value={this.state.post.body}
+            value={post.body}
             multiLine={true}
             rows={3}
             name="body"
@@ -89,12 +94,12 @@ class FormPost extends Component {
           <TextField
             floatingLabelText="Author"
             onChange={this.handleTextChange}
-            value={this.state.post.author}
+            value={post.author}
             name="author"
           /><br />
           <SelectField
             floatingLabelText="Category"
-            value={category || this.state.post.category}
+            value={category || post.category}
             onChange={this.handleSelectChange}
             name="category"
           >

@@ -1,0 +1,10 @@
+.readable {
+  .voteScore {
+    display: inline-block;
+    font-size: 12px;
+    &__txt {
+      margin: 0 12px;
+      vertical-align: middle;
+    }
+  }
+}

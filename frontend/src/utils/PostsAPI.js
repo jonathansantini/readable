@@ -15,9 +15,9 @@ function getAll () {
 }
 
 function getCategoryPosts (cat) {
-  const path = cat === 'all'
-      ? `${root}/posts`
-      : `${root}/${cat}/posts`;
+  const path = cat
+      ? `${root}/${cat}/posts`
+      : `${root}/posts`;
   return fetch(path, {
     'method': 'GET',
     headers
@@ -55,11 +55,20 @@ function deletePost (id) {
   })
 }
 
+function setVote (data) {
+  return fetch(`${root}/posts/${data.id}`, {
+    'method': 'POST',
+    'body': JSON.stringify(data),
+    headers
+  }).then(res => res.json())
+}
+
 module.exports = {
   getCategoryPosts,
   getPost,
   getAll,
   addPost,
   editPost,
-  deletePost
+  deletePost,
+  setVote
 }
