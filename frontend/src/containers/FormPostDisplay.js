@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import {fetchPostById, handleAddPost, handleEditPost } from "../actions/index";
+import {fetchPostById, handleAddPost, handleEditPost } from "../actions/posts";
+import Nav from '../components/Nav';
 import FormPost from "../components/FormPost";
 import * as CategoryHelper from "../utils/helpers/categories";
 import * as PostHelper from "../utils/helpers/posts";
@@ -22,12 +23,17 @@ class FormPostDisplay extends Component {
     const { post={}, categories=[], category, handleAddPost, handleEditPost } = this.props;
 
     return (
-      <FormPost post={post}
-        category={category}
-        categories={categories}
-        handleAddPost={handleAddPost}
-        handleEditPost={handleEditPost}
-      />
+      <div className="form-post">
+        <Nav category={category}
+          categories={categories}
+        />
+        <FormPost post={post}
+          category={category}
+          categories={categories}
+          handleAddPost={handleAddPost}
+          handleEditPost={handleEditPost}
+        />
+      </div>
     )
   }
 }

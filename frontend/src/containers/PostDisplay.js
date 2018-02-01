@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPostById, deletePost, fetchComments, deleteComment, handlePostVote, handleCommentVote } from '../actions/index';
+import { fetchPostById, deletePost, handlePostVote } from '../actions/posts';
+import { fetchComments, deleteComment, handleCommentVote } from '../actions/comments';
+import Nav from '../components/Nav';
 import Post from '../components/Post';
 import Comments from '../components/Comments';
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CommentsHelper from '../utils/helpers/comments';
+import * as CategoryHelper from "../utils/helpers/categories";
 
 class PostDisplay extends Component {
   componentDidMount() {
@@ -18,6 +21,7 @@ class PostDisplay extends Component {
       postId,
       comments,
       category,
+      categories,
       deletePost,
       deleteComment,
       handlePostVote,
@@ -27,7 +31,10 @@ class PostDisplay extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="post-wrapper">
+        <Nav category={category}
+           categories={categories}
+        />
         {postLoaded && (
           <Post post={post}
             deletePost={deletePost}
@@ -50,7 +57,7 @@ class PostDisplay extends Component {
 function mapStateToProps( state, ownProps ) {
   const postId = ownProps.match.params.post_id;
   const category = ownProps.match.params.category;
-  const { posts, comments } = state;
+  const { posts, comments, categories } = state;
 
   return {
     category,
@@ -58,7 +65,8 @@ function mapStateToProps( state, ownProps ) {
     comments: CommentsHelper.formatComments(comments),
     commentsLoaded: comments.loaded,
     post: PostsHelper.formatPost(posts),
-    postLoaded: posts.loaded
+    postLoaded: posts.loaded,
+    categories: CategoryHelper.getAllCategories(categories)
   }
 }
 

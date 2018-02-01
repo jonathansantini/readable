@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom';
-import { fetchCategories } from '../actions/index';
+import { fetchCategories } from '../actions/categories';
 import Header from '../components/Header';
-import Nav from '../components/Nav';
 import PostDisplay from '../containers/PostDisplay';
 import PostsDisplay from '../containers/PostsDisplay';
 import FormPostDisplay from '../containers/FormPostDisplay';
@@ -19,7 +18,6 @@ class App extends Component {
     return (
       <div className="readable">
         <Header />
-        <Nav {...this.props} />
         <Switch>
           <Route exact path="/create-post" component={FormPostDisplay} />
           <Route exact path="/:category" component={PostsDisplay} />

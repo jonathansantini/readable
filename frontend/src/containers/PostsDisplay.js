@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchPosts, deletePost, handlePostVote } from '../actions/index';
+import { fetchPosts, deletePost, handlePostVote } from '../actions/posts';
+import Nav from '../components/Nav';
 import Posts from '../components/Posts';
 import * as PostsHelper from '../utils/helpers/posts';
+import * as CategoryHelper from "../utils/helpers/categories";
 
 class PostsDisplay extends Component {
   componentDidMount() {
@@ -17,9 +19,12 @@ class PostsDisplay extends Component {
     }
   }
   render() {
-    const { posts, category, deletePost, postsLoaded, handlePostVote } = this.props;
+    const { posts, category, categories, deletePost, postsLoaded, handlePostVote } = this.props;
     return (
-      <div>
+      <div className="posts">
+        <Nav category={category}
+          categories={categories}
+        />
         { postsLoaded && (
           <Posts posts={posts}
            category={category}
@@ -34,12 +39,15 @@ class PostsDisplay extends Component {
 
 function mapStateToProps( state, ownProps ) {
   const category = ownProps.match.params.category;
-  const { posts } = state;
+  const filter = ownProps.location.hash;
+  const { posts, categories } = state;
+  const postsArray = PostsHelper.formatPosts(posts);
 
   return {
     category,
-    posts: PostsHelper.formatPosts(posts),
-    postsLoaded: posts.loaded
+    posts: PostsHelper.filterPosts(postsArray, filter),
+    postsLoaded: posts.loaded,
+    categories: CategoryHelper.getAllCategories(categories)
   }
 }
 
