@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { fetchCommentById, handleAddComment, handleEditComment } from "../actions/comments";
-import Nav from '../components/Nav';
 import FormComment from "../components/FormComment";
 import * as CommentsHelper from "../utils/helpers/comments";
 import * as CategoryHelper from "../utils/helpers/categories";
@@ -19,13 +18,10 @@ class FormCommentDisplay extends Component {
   }
 
   render() {
-    const { comment={}, category, categories, handleAddComment, handleEditComment } = this.props;
+    const { comment={}, category, handleAddComment, handleEditComment } = this.props;
 
     return (
       <div className="form-comment">
-        <Nav category={category}
-          categories={categories}
-        />
         <FormComment comment={comment}
           category={category}
           handleAddComment={handleAddComment}

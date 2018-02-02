@@ -17,5 +17,26 @@
   .post {
     padding: 20px;
     border-bottom: 1px solid $color-grey;
+    &__label {
+      font-size: 8px;
+      margin-right: 12px;
+      color: $color-grey;
+    }
+    &__body,
+    &__info,
+    &__controls,
+    &__vote {
+      margin-top: 12px;
+    }
+    &__info {
+      &--date {
+        margin-right: 12px;
+      }
+    }
+    &__controls {
+      &--link {
+        margin-right: 10px;
+      }
+    }
   }
 }

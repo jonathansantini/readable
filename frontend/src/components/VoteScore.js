@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentMinus from 'material-ui/svg-icons/content/remove';
+import Badge from 'material-ui/Badge';
 
 const btnStyle = {
   minWidth: 36,
@@ -14,12 +15,17 @@ const iconStyle = {
   width: 18,
 };
 
+const badge = {
+  top: 0,
+  right: 15
+}
+
 /**
  * Functional component used to display the category list.
  * @extends React
  */
 function VoteScore (props) {
-  const { id, handleVote } = props;
+  const { id, handleVote, score } = props;
 
   return (
     <div className="voteScore">
@@ -29,7 +35,13 @@ function VoteScore (props) {
         href="#"
         onClick={(e) => { e.preventDefault(); handleVote({ id, option: 'upVote' }); }}
       />
-      <span className="voteScore__txt">VOTE</span>
+      <Badge
+        badgeContent={score}
+        primary={true}
+        badgeStyle={badge}
+      >
+        <span className="voteScore__txt">VOTE</span>
+      </Badge>
       <FlatButton secondary={true}
         style={btnStyle}
         icon={<ContentMinus style={iconStyle} />}
@@ -42,6 +54,7 @@ function VoteScore (props) {
 
 VoteScore.propTypes = {
   id: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
   handleVote: PropTypes.func.isRequired
 }
 

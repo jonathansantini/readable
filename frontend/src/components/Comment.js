@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import VoteScore from '../components/VoteScore';
+import RaisedButton from 'material-ui/RaisedButton';
 
 /**
  * Functional component used to display the posts list.
@@ -12,19 +13,26 @@ function Comment (props) {
 
   return (
     <div className="comment">
-      <div className="comment__body">{comment.body}</div>
+      <blockquote className="comment__body">{comment.body}</blockquote>
       <div className="comment__info">
-        <span className="comment__info--author">{comment.author}</span>
-        <span className="comment__info--score">{comment.voteScore}</span>
+        <span className="comment__info--author">
+          <label className="comment__label">AUTHOR</label>
+          <span className="comment__info--author">{comment.author}</span>
+        </span>
       </div>
       <div className="comment__actions">
         <Link
           to={`/${category}/${postId}/edit/${comment.id}`}
-          className="comment__actions--edit">
-          Edit
+          className="comment__actions--item">
+          <RaisedButton label="Edit" primary={true} />
         </Link>
-        <button className="comment__actions--delete" onClick={() => deleteComment(comment.id)}>Delete</button>
-        <VoteScore id={comment.id} handleVote={handleCommentVote}/>
+        <RaisedButton label="Delete" onClick={() => deleteComment(comment.id)} secondary={true} />
+      </div>
+      <div className="comment__vote">
+        <VoteScore id={comment.id}
+          handleVote={handleCommentVote}
+          score={comment.voteScore}
+        />
       </div>
     </div>
   )

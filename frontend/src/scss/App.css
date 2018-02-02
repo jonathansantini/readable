@@ -39,14 +39,39 @@ li {
 .readable .post {
   padding: 20px;
   border-bottom: 1px solid #ccc; }
+  .readable .post__label {
+    font-size: 8px;
+    margin-right: 12px;
+    color: #ccc; }
+  .readable .post__body, .readable .post__info, .readable .post__controls, .readable .post__vote {
+    margin-top: 12px; }
+  .readable .post__info--date {
+    margin-right: 12px; }
+  .readable .post__controls--link {
+    margin-right: 10px; }
 
 .readable .comments {
   padding: 20px;
   border-bottom: 1px solid #ccc; }
   .readable .comments__hdr {
     margin-bottom: 12px; }
+  .readable .comments__list--item {
+    margin-top: 12px; }
   .readable .comments__actions {
     padding: 20px 0 0; }
+  .readable .comments .comment {
+    display: inline-block;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 5px; }
+    .readable .comments .comment__label {
+      font-size: 8px;
+      margin-right: 12px;
+      color: #ccc; }
+    .readable .comments .comment__info, .readable .comments .comment__actions, .readable .comments .comment__vote {
+      margin-top: 12px; }
+    .readable .comments .comment__actions--item {
+      margin-right: 12px; }
 
 .readable .form {
   padding: 0 20px; }

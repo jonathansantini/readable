@@ -11,11 +11,9 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
  */
 function Posts (props) {
   const { posts=[] , category, deletePost, handlePostVote } = props;
-  const subCat = category ? ` (${category})` : ``;
 
   return (
     <div className="posts">
-      <h3 className="posts__hdr">{`Posts${subCat}`}</h3>
       <div className="posts__list">
         <ul className="posts__list--list">
           {posts.length ? posts.map(post => (
