@@ -8,13 +8,93 @@ import Comments from '../components/Comments';
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CommentsHelper from '../utils/helpers/comments';
 import * as CategoryHelper from "../utils/helpers/categories";
+import AlertDialog from '../components/AlertDialog';
 
 class PostDisplay extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      deletePostOverlay: {
+        id: '',
+        open: false
+      },
+      deleteCommentOverlay: {
+        id: '',
+        open: false
+      }
+    };
+
+    this.openDeletePostOverlay = this.openDeletePostOverlay.bind(this);
+    this.onDeletePostSubmit = this.onDeletePostSubmit.bind(this);
+    this.onDeletePostCancel = this.onDeletePostCancel.bind(this);
+
+    this.openDeleteCommentOverlay = this.openDeleteCommentOverlay.bind(this);
+    this.onDeleteCommentSubmit = this.onDeleteCommentSubmit.bind(this);
+    this.onDeleteCommentCancel = this.onDeleteCommentCancel.bind(this);
+  }
+
   componentDidMount() {
     const { postId, fetchPostById, fetchComments } = this.props;
     fetchPostById(postId);
     fetchComments([postId]);
   }
+
+  openDeletePostOverlay(id) {
+    this.setState({
+      deletePostOverlay: {
+        id,
+        open: true
+      }
+    })
+  }
+
+  onDeletePostSubmit() {
+    this.props.deletePost(this.state.deletePostOverlay.id);
+    this.setState({
+      deletePostOverlay: {
+        id: '',
+        open: false
+      }
+    })
+  }
+
+  onDeletePostCancel() {
+    this.setState({
+      deletePostOverlay: {
+        id: '',
+        open: false
+      }
+    })
+  }
+
+  openDeleteCommentOverlay(id) {
+    this.setState({
+      deleteCommentOverlay: {
+        id,
+        open: true
+      }
+    })
+  }
+
+  onDeleteCommentSubmit() {
+    this.props.deleteComment(this.state.deleteCommentOverlay.id);
+    this.setState({
+      deleteCommentOverlay: {
+        id: '',
+        open: false
+      }
+    })
+  }
+
+  onDeleteCommentCancel() {
+    this.setState({
+      deleteCommentOverlay: {
+        id: '',
+        open: false
+      }
+    })
+  }
+
   render() {
     const {
       post,
@@ -22,8 +102,6 @@ class PostDisplay extends Component {
       comments,
       category,
       categories,
-      deletePost,
-      deleteComment,
       handlePostVote,
       handleCommentVote,
       postLoaded,
@@ -37,18 +115,32 @@ class PostDisplay extends Component {
         />
         {postLoaded && (
           <Post post={post}
-            deletePost={deletePost}
             handlePostVote={handlePostVote}
+            openDeletePostOverlay={this.openDeletePostOverlay}
           />
         )}
         {commentsLoaded && (
           <Comments comments={comments}
-            deleteComment={deleteComment}
             postId={postId}
             category={category}
             handleCommentVote={handleCommentVote}
+            openDeleteCommentOverlay={this.openDeleteCommentOverlay}
           />
         )}
+
+        <AlertDialog
+          open={this.state.deletePostOverlay.open}
+          message='You sure you want to delete this post?'
+          onCancel={this.onDeletePostCancel}
+          onRequestClose={this.onDeletePostSubmit}
+        />
+
+        <AlertDialog
+          open={this.state.deleteCommentOverlay.open}
+          message='You sure you want to delete this comment?'
+          onCancel={this.onDeleteCommentCancel}
+          onRequestClose={this.onDeleteCommentSubmit}
+        />
       </div>
     );
   }

@@ -10,7 +10,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
  * @extends React
  */
 function Comments (props) {
-  const { comments, category, postId, deleteComment, handleCommentVote } = props;
+  const { comments, category, postId, openDeleteCommentOverlay, handleCommentVote } = props;
 
   return (
     <div className="comments">
@@ -21,7 +21,7 @@ function Comments (props) {
             <Comment category={category}
               postId={postId}
               comment={comment}
-              deleteComment={deleteComment}
+              openDeleteCommentOverlay={openDeleteCommentOverlay}
               handleCommentVote={handleCommentVote}
             />
           </li>
@@ -50,7 +50,7 @@ Comments.propTypes = {
   category: PropTypes.string.isRequired,
   comments: PropTypes.array.isRequired,
   postId: PropTypes.string.isRequired,
-  deleteComment: PropTypes.func.isRequired,
+  openDeleteCommentOverlay: PropTypes.func.isRequired,
   handleCommentVote: PropTypes.func.isRequired
 }
 

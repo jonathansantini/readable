@@ -4,22 +4,69 @@ import { withRouter } from 'react-router-dom';
 import { fetchPosts, deletePost, handlePostVote } from '../actions/posts';
 import Nav from '../components/Nav';
 import Posts from '../components/Posts';
+import AlertDialog from '../components/AlertDialog';
+
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CategoryHelper from "../utils/helpers/categories";
 
 class PostsDisplay extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      deletePostOverlay: {
+        id: '',
+        open: false
+      }
+    };
+
+    this.openDeletePostOverlay = this.openDeletePostOverlay.bind(this);
+    this.onDeletePostSubmit = this.onDeletePostSubmit.bind(this);
+    this.onDeletePostCancel = this.onDeletePostCancel.bind(this);
+  }
+
   componentDidMount() {
     const { category, fetchPosts } = this.props;
     fetchPosts(category);
   }
+
   componentWillReceiveProps(prevProps) {
     const { category, fetchPosts } = this.props;
     if (prevProps.category !== category) {
       fetchPosts(prevProps.category);
     }
   }
+
+  openDeletePostOverlay(id) {
+    this.setState({
+      deletePostOverlay: {
+        id,
+        open: true
+      }
+    })
+  }
+
+  onDeletePostSubmit() {
+    this.props.deletePost(this.state.deletePostOverlay.id);
+    this.setState({
+      deletePostOverlay: {
+        id: '',
+        open: false
+      }
+    })
+  }
+
+  onDeletePostCancel() {
+    this.setState({
+      deletePostOverlay: {
+        id: '',
+        open: false
+      }
+    })
+  }
+
   render() {
-    const { posts, category, categories, deletePost, postsLoaded, handlePostVote } = this.props;
+    const { posts, category, categories, postsLoaded, handlePostVote } = this.props;
+
     return (
       <div className="posts">
         <Nav category={category}
@@ -28,10 +75,17 @@ class PostsDisplay extends Component {
         { postsLoaded && (
           <Posts posts={posts}
            category={category}
-           deletePost={deletePost}
            handlePostVote={handlePostVote}
+           openDeletePostOverlay={this.openDeletePostOverlay}
           />
         )}
+
+        <AlertDialog
+          open={this.state.deletePostOverlay.open}
+          message='You sure you want to delete this post?'
+          onCancel={this.onDeletePostCancel}
+          onRequestClose={this.onDeletePostSubmit}
+        />
       </div>
     );
   }
