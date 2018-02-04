@@ -21,7 +21,7 @@ export const fetchComments = (ids, dispatch) => {
 };
 
 /**
- * Action to fetch comment by id.
+ * Action that handles fetching a comment by id.
  * Sets posts loaded to false then fetches posts from API.
  * @returns {object} promise that received posts
  */
@@ -31,6 +31,10 @@ export const fetchCommentById = (id, dispatch) => {
     .then(data => dispatch(receiveComment(data)))
 };
 
+/**
+ * Action that handles adding a comment to a post.
+ * @returns {object} promise that received comment and redirects to post page
+ */
 export const handleAddComment = (data, dispatch, ownProps) => {
   const { body, author } = data;
   const category = ownProps.match.params.category;
@@ -49,6 +53,11 @@ export const handleAddComment = (data, dispatch, ownProps) => {
     .then(ownProps.history.push(`/${category}/${parentId}`))
 }
 
+
+/**
+ * Action that handles editing a comment.
+ * @returns {object} promise that received comment and redirects to post page
+ */
 export const handleEditComment = (data, dispatch, ownProps) => {
   const { id, body, author, parentId } = data;
   const category = ownProps.match.params.category;
@@ -65,15 +74,19 @@ export const handleEditComment = (data, dispatch, ownProps) => {
     .then(ownProps.history.push(`/${category}/${parentId}`))
 }
 
+
+/**
+ * Action that handles voting for a comment.
+ * @returns {object} promise that sets the comment vote
+ */
 export const handleCommentVote = (data, dispatch) => {
   return CommentsAPI.setVote(data)
     .then(data => dispatch(setCommentVote(data)))
 }
 
 /**
- * Action to fetch a post by id.
- * Sets post loaded to false then fetches post from API.
- * @returns {object} promise that received post
+ * Action to handle deleting a comment using comment id.
+ * @returns {object} promise that deleted comment
  */
 export const deleteComment = (id, dispatch) => {
   return CommentsAPI.deleteComment(id)
@@ -81,8 +94,7 @@ export const deleteComment = (id, dispatch) => {
 };
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to fetch comments
  */
 export const fetchingComments = () => ({
   type: FETCH_COMMENTS,
@@ -90,8 +102,7 @@ export const fetchingComments = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to receive comment
  */
 export const receiveComment = data => ({
   type: RECEIVE_COMMENT,
@@ -100,8 +111,7 @@ export const receiveComment = data => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to receive comments
  */
 export const receiveComments = data => ({
   type: RECEIVE_COMMENTS,
@@ -110,8 +120,7 @@ export const receiveComments = data => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to add a comment
  */
 export const addingComment = () => ({
   type: ADD_COMMENT,
@@ -119,8 +128,7 @@ export const addingComment = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to edit a comment
  */
 export const editingComment = () => ({
   type: EDIT_COMMENT,
@@ -128,8 +136,7 @@ export const editingComment = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to delete a comment
  */
 export const deletedComment = id => ({
   type: DELETE_COMMENT,
@@ -137,8 +144,7 @@ export const deletedComment = id => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to vote on a comment
  */
 export const setCommentVote = data => ({
   type: VOTE_COMMENT,

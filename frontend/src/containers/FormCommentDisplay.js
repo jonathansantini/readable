@@ -9,7 +9,8 @@ import * as CategoryHelper from "../utils/helpers/categories";
 import * as FormHelper from "../utils/helpers/forms";
 
 /**
- * Functional component used to display the post form.
+ * Controlled component used to display the comment form.
+ * Loads comment data if :comment_id is provided from React Router.
  * @extends React
  */
 class FormCommentDisplay extends Component {

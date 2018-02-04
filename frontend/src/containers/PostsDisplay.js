@@ -10,6 +10,10 @@ import Loading from '../components/Loading';
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CategoryHelper from "../utils/helpers/categories";
 
+/**
+ * Controlled component used to display a list of posts from all of a single category.
+ * @extends React
+ */
 class PostsDisplay extends Component {
   constructor(props) {
     super(props);

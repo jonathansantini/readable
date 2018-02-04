@@ -9,7 +9,7 @@ const style = {
 };
 
 /**
- * Functional component used to display the header.
+ * Functional component used to display the loading icon.
  * @extends React
  */
 const Loading = () => (

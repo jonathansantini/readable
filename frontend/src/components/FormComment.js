@@ -4,7 +4,8 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 /**
- * Functional component used to display the post form.
+ * Controlled component used to display the comment form.
+ * Uses it's own state to handle the form data.
  * @extends React
  */
 class FormComment extends Component {
@@ -20,6 +21,12 @@ class FormComment extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
+  }
+
+  static propTypes = {
+    comment: PropTypes.object.isRequired,
+    handleAddComment: PropTypes.func.isRequired,
+    handleEditComment: PropTypes.func.isRequired,
   }
 
   componentWillReceiveProps(prevProps) {
@@ -73,12 +80,6 @@ class FormComment extends Component {
       </div>
     )
   }
-}
-
-FormComment.propTypes = {
-  comment: PropTypes.object.isRequired,
-  handleAddComment: PropTypes.func.isRequired,
-  handleEditComment: PropTypes.func.isRequired,
 }
 
 export default FormComment;

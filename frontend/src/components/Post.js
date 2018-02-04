@@ -5,7 +5,7 @@ import VoteScore from '../components/VoteScore';
 import RaisedButton from 'material-ui/RaisedButton';
 
 /**
- * Functional component used to display the posts list.
+ * Functional component used to display  post.
  * @extends React
  */
 function Post (props) {

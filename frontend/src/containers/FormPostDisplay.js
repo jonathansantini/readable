@@ -9,7 +9,8 @@ import * as PostHelper from "../utils/helpers/posts";
 import * as FormHelper from "../utils/helpers/forms";
 
 /**
- * Functional component used to display the post form.
+ * Controlled component used to display the post form.
+ * Loads post data if :post_id is provided from React Router.
  * @extends React
  */
 class FormPostDisplay extends Component {

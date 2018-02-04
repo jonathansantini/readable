@@ -12,6 +12,10 @@ import * as PostsHelper from '../utils/helpers/posts';
 import * as CommentsHelper from '../utils/helpers/comments';
 import * as CategoryHelper from "../utils/helpers/categories";
 
+/**
+ * Controlled component used to display a post and it's comments.
+ * @extends React
+ */
 class PostDisplay extends Component {
   constructor(props) {
     super(props);

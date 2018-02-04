@@ -10,6 +10,10 @@ import FormCommentDisplay from '../containers/FormCommentDisplay';
 import * as CategoryHelper from '../utils/helpers/categories';
 import '../scss/App.css';
 
+/**
+ * Main class used as the parent component to the app.
+ * @extends React.Component
+ */
 class App extends Component {
   componentWillMount() {
     this.props.fetchCategories();

@@ -6,7 +6,8 @@ import MenuItem from 'material-ui/MenuItem';
 import RaisedButton from 'material-ui/RaisedButton';
 
 /**
- * Functional component used to display the post form.
+ * Controlled component used to display the post form.
+ * Uses it's own state to handle the form data.
  * @extends React
  */
 class FormPost extends Component {
@@ -24,6 +25,13 @@ class FormPost extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
+  }
+
+  static propTypes = {
+    categories: PropTypes.array.isRequired,
+    post: PropTypes.object.isRequired,
+    handleAddPost: PropTypes.func.isRequired,
+    handleEditPost: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -125,13 +133,6 @@ class FormPost extends Component {
       </div>
     )
   }
-}
-
-FormPost.propTypes = {
-  categories: PropTypes.array.isRequired,
-  post: PropTypes.object.isRequired,
-  handleAddPost: PropTypes.func.isRequired,
-  handleEditPost: PropTypes.func.isRequired,
 }
 
 export default FormPost;

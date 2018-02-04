@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 /**
- * Functional component used to display a page not found.
+ * Functional component used to display a page not found message.
+ * Uses withRouter to link uses back to the App root.
  * @extends React
  */
 function PageNotFound () {

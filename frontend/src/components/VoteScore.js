@@ -21,7 +21,7 @@ const badge = {
 }
 
 /**
- * Functional component used to display the category list.
+ * Functional component used to handle voting and it's display.
  * @extends React
  */
 function VoteScore (props) {

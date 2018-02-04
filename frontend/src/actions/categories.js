@@ -15,8 +15,8 @@ export const fetchCategories = (data, dispatch) => {
 };
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to receive categories
+ * @returns {object} action type with categories
  */
 export const fetchingCategories = () => ({
   type: FETCH_CATEGORIES,
@@ -24,8 +24,8 @@ export const fetchingCategories = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to receive categories
+ * @returns {object} action type with categories
  */
 export const receiveCategories = data => ({
   type: RECEIVE_CATEGORIES,

@@ -9,7 +9,8 @@ import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
 
 /**
- * Functional component used to display the category list.
+ * Controlled component used to display the nav and it's filtering.
+ * Uses it's own state for filtering.
  * @extends React
  */
 class Nav extends Component {
@@ -22,6 +23,10 @@ class Nav extends Component {
 
     this.handleCategory = this.handleCategory.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
+  }
+
+  static propTypes = {
+    categories: PropTypes.array.isRequired
   }
 
   handleCategory(e, index, value) {
@@ -70,10 +75,6 @@ class Nav extends Component {
       </Toolbar>
     )
   }
-}
-
-Nav.propTypes = {
-  categories: PropTypes.array.isRequired
 }
 
 export default withRouter(Nav);

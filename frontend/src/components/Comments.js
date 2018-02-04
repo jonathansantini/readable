@@ -6,7 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
 /**
- * Functional component used to display the posts list.
+ * Functional component used to handle displaying a list of comments..
  * @extends React
  */
 function Comments (props) {

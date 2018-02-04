@@ -4,10 +4,17 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 /**
- * Functional component used to display the alert dialog.
+ * Controlled component used to display the alert dialog.
  * @extends React
  */
 class AlertDialog extends Component {
+
+  static propTypes = {
+    open: PropTypes.bool.isRequired,
+    message: PropTypes.string.isRequired,
+    onRequestClose: PropTypes.func.isRequired,
+    onCancel: PropTypes.func.isRequired
+  }
 
   render() {
     const { open, message, onCancel, onRequestClose } = this.props;
@@ -35,13 +42,6 @@ class AlertDialog extends Component {
       </Dialog>
     )
   }
-}
-
-AlertDialog.propTypes = {
-  open: PropTypes.bool.isRequired,
-  message: PropTypes.string.isRequired,
-  onRequestClose: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
 }
 
 export default AlertDialog;

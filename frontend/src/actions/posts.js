@@ -21,9 +21,8 @@ export const fetchPosts = (category, dispatch) => {
 };
 
 /**
- * Action to fetch a post by id.
- * Sets post loaded to false then fetches post from API.
- * @returns {object} promise that received post
+ * Action that handles fetching a post by id.
+ * @returns {object} promise that post is received
  */
 export const fetchPostById = (id, dispatch) => {
   dispatch(fetchingPost())
@@ -32,15 +31,18 @@ export const fetchPostById = (id, dispatch) => {
 };
 
 /**
- * Action to fetch a post by id.
- * Sets post loaded to false then fetches post from API.
- * @returns {object} promise that received post
+ * Action that handles deleting a post by id.
+ * @returns {object} promise that post is deleted
  */
 export const deletePost = (id, dispatch) => {
   return PostsAPI.deletePost(id)
     .then(() => dispatch(deletedPost(id)))
 };
 
+/**
+ * Action that handles adding a post.
+ * @returns {object} promise that post is deleted
+ */
 export const handleAddPost = (data, dispatch, ownProps) => {
   const { title, body, author, category } = data;
 
@@ -58,6 +60,10 @@ export const handleAddPost = (data, dispatch, ownProps) => {
     .then(ownProps.history.push(`/${category}`))
 };
 
+/**
+ * Action that handles editing a post.
+ * @returns {object} promise that post is received
+ */
 export const handleEditPost = (data, dispatch, ownProps) => {
   const { title, body, category, id } = data;
   const post = {
@@ -71,14 +77,17 @@ export const handleEditPost = (data, dispatch, ownProps) => {
     .then(ownProps.history.push(`/${category}`))
 }
 
+/**
+ * Action that handles voting for a post.
+ * @returns {object} promise that vote is set
+ */
 export const handlePostVote = (data, dispatch) => {
   return PostsAPI.setVote(data)
     .then(data => dispatch(setPostVote(data)))
 }
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to fetch posts
  */
 export const fetchingPosts = () => ({
   type: FETCH_POSTS,
@@ -86,8 +95,7 @@ export const fetchingPosts = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to receive posts
  */
 export const receivePosts = data => ({
   type: RECEIVE_POSTS,
@@ -96,8 +104,7 @@ export const receivePosts = data => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to fetch post
  */
 export const fetchingPost = () => ({
   type: FETCH_POSTS,
@@ -105,7 +112,7 @@ export const fetchingPost = () => ({
 });
 
 /**
- * Action to receive posts and categories
+ * Action to receive a post
  * @returns {object} action type with posts and categories
  */
 export const receivePost = data => ({
@@ -115,8 +122,7 @@ export const receivePost = data => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to delete a post
  */
 export const deletedPost = id => ({
   type: DELETE_POST,
@@ -124,8 +130,7 @@ export const deletedPost = id => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to add a post
  */
 export const addingPost = () => ({
   type: ADD_POST,
@@ -133,8 +138,7 @@ export const addingPost = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to edit a post
  */
 export const editingPost = () => ({
   type: EDIT_POST,
@@ -142,8 +146,7 @@ export const editingPost = () => ({
 });
 
 /**
- * Action to receive posts and categories
- * @returns {object} action type with posts and categories
+ * Action to set the post vote
  */
 export const setPostVote = data => ({
   type: VOTE_POST,

@@ -5,7 +5,7 @@ import VoteScore from '../components/VoteScore';
 import RaisedButton from 'material-ui/RaisedButton';
 
 /**
- * Functional component used to display the posts list.
+ * Functional component used to handle a single comment's display.
  * @extends React
  */
 function Comment (props) {
