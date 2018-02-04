@@ -45,7 +45,7 @@ li {
     color: #ccc; }
   .readable .post__body, .readable .post__info, .readable .post__controls, .readable .post__vote {
     margin-top: 12px; }
-  .readable .post__info--date {
+  .readable .post__info--date, .readable .post__info--author {
     margin-right: 12px; }
   .readable .post__controls--link {
     margin-right: 10px; }

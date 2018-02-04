@@ -30,6 +30,10 @@ function PostSummary (props) {
           <label className="post__label">AUTHOR</label>
           <span className="post__info--author--txt">{post.author}</span>
         </span>
+        <span className="post__info--comments">
+          <label className="post__label">Comments</label>
+          <span className="post__info--author--txt">{post.commentCount}</span>
+        </span>
       </div>
       <div className="post__controls">
         <Link

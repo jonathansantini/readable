@@ -11,7 +11,8 @@ const defaultData = {
     author: 'thingtwo',
     category: 'react',
     voteScore: 6,
-    deleted: false 
+    deleted: false,
+    commentCount: 2
   },
   "6ni6ok3ym7mf1p33lnez": {
     id: '6ni6ok3ym7mf1p33lnez',
@@ -21,7 +22,8 @@ const defaultData = {
     author: 'thingone',
     category: 'redux',
     voteScore: -5,
-    deleted: false
+    deleted: false,
+    commentCount: 0
   }
 }
 
@@ -74,7 +76,8 @@ function add (token, post) {
       author: post.author,
       category: post.category,
       voteScore: 1,
-      deleted: false
+      deleted: false,
+      commentCount: 0,
     }
      
     res(posts[post.id])
@@ -117,6 +120,24 @@ function edit (token, id, post) {
     })
 }
 
+function incrementCommentCount (token, id, option) {
+    return new Promise((res) => {
+        let posts = getData(token)
+        post = posts[id]
+        switch(option) {
+          case "up":
+            post.commentCount = post.commentCount + 1
+            break
+          case "down":
+            post.commentCount = post.commentCount - 1
+            break
+          default:
+            console.log(`post.increment received incorrect parameter: ${option}`)
+        }
+        res(post)
+    })
+}
+
 module.exports = {
   get,
   getAll,
@@ -125,5 +146,6 @@ module.exports = {
   vote,
   disable,
   edit,
-  getAll
+  getAll,
+  incrementCommentCount,
 }

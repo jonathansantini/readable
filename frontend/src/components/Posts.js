@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import PostSummary from '../components/PostSummary';
+import Post from '../components/Post';
 import RaisedButton from 'material-ui/RaisedButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
@@ -18,7 +18,7 @@ function Posts (props) {
         <ul className="posts__list--list">
           {posts.length ? posts.map(post => (
             <li key={post.id} className="posts__list--item">
-              <PostSummary post={post}
+              <Post post={post}
                category={category}
                openDeleteOverlay={openDeleteOverlay}
                handlePostVote={handlePostVote}

@@ -1,4 +1,5 @@
 const clone = require('clone')
+const posts = require('./posts')
 
 let db = {}
 
@@ -67,7 +68,8 @@ function add (token, comment) {
       deleted: false,
       parentDeleted: false
     }
-     
+    posts.incrementCommentCount(token, comment.parentId, 'up')
+
     res(comments[comment.id])
   })
 }
@@ -96,6 +98,7 @@ function disableByParent (token, post) {
         keys = Object.keys(comments)
         filtered_keys = keys.filter(key => comments[key].parentId === post.id)
         filtered_keys.forEach(key => comments[key].parentDeleted = true)
+        filtered_keys.forEach(key => posts.incrementCommentCount(token, comments[key].parentId, 'down'))
         res(post)
     })
 }
@@ -104,6 +107,7 @@ function disable (token, id) {
     return new Promise((res) => {
       let comments = getData(token)
       comments[id].deleted = true
+      posts.incrementCommentCount(token, comments[id].parentId, 'down')
       res(comments[id])
     })
 }

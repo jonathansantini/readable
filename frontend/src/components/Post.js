@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
  * @extends React
  */
 function Post (props) {
-  const { post, openDeleteOverlay, handlePostVote } = props;
+  const { post, hideEditBtn, openDeleteOverlay, handlePostVote } = props;
 
   return (
     <div className="post">
@@ -24,8 +24,19 @@ function Post (props) {
           <label className="post__label">AUTHOR</label>
           <span className="post__info--author--txt">{post.author}</span>
         </span>
+        <span className="post__info--comments">
+          <label className="post__label">Comments</label>
+          <span className="post__info--author--txt">{post.commentCount}</span>
+        </span>
       </div>
       <div className="post__controls">
+        { !hideEditBtn && (
+          <Link
+            to={`/${post.category}/${post.id}`}
+            className="post__controls--link">
+            <RaisedButton label="View" primary={true} />
+          </Link>
+        )}
         <Link
           to={`/${post.category}/${post.id}/edit`}
           className="post__controls--link">

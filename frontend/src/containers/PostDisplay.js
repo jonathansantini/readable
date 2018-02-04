@@ -36,6 +36,13 @@ class PostDisplay extends Component {
     }
   }
 
+  componentWillReceiveProps(prevProps) {
+    const { comments, fetchPostById } = this.props;
+    if (prevProps.comments.length !== comments.length) {
+      fetchPostById(prevProps.postId);
+    }
+  }
+
   openDeleteOverlay(data) {
     const { postId, commentId } = data;
 
@@ -108,6 +115,7 @@ class PostDisplay extends Component {
                 categories={categories}
               />
               <Post post={post}
+                hideEditBtn={true}
                 handlePostVote={handlePostVote}
                 openDeleteOverlay={this.openDeleteOverlay}
               />
