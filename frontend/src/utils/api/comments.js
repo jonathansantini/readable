@@ -1,28 +1,18 @@
-const root = process.env.REACT_APP_BACKEND;
-
-// Generate a unique token for storing your bookshelf data on the backend server.
-let token = localStorage.token
-if (!token)
-  token = localStorage.token = Math.random().toString(36).substr(-8)
-
-const headers = {
-  'Content-Type': 'application/json',
-  'Authorization': token,
-};
+const API = require('../helpers/api');
 
 function getComment (commentId) {
-  return fetch(`${root}/comments/${commentId}`, {
+  return fetch(`${API.root}/comments/${commentId}`, {
     'method': 'GET',
-    headers
+    headers: API.headers
   }).then(res => res.json())
 }
 
 function get (ids = []) {
   const promises = [];
   ids.forEach((id) =>
-    promises.push(fetch(`${root}/posts/${id}/comments`, {
+    promises.push(fetch(`${API.root}/posts/${id}/comments`, {
       'method': 'GET',
-      headers
+      headers: API.headers
     })));
   return Promise.all(promises)
     .then(responses =>
@@ -38,33 +28,33 @@ function get (ids = []) {
 }
 
 function addComment (data) {
-  return fetch(`${root}/comments`, {
+  return fetch(`${API.root}/comments`, {
     'method': 'POST',
     'body': JSON.stringify(data),
-    headers
+    headers: API.headers
   }).then(res => res.json())
 }
 
 function editComment (data) {
-  return fetch(`${root}/comments/${data.id}`, {
+  return fetch(`${API.root}/comments/${data.id}`, {
     'method': 'PUT',
     'body': JSON.stringify(data),
-    headers
+    headers: API.headers
   }).then(res => res.json())
 }
 
 function deleteComment (id) {
-  return fetch(`${root}/comments/${id}`, {
+  return fetch(`${API.root}/comments/${id}`, {
     'method': 'DELETE',
-    headers
+    headers: API.headers
   })
 }
 
 function setVote (data) {
-  return fetch(`${root}/comments/${data.id}`, {
+  return fetch(`${API.root}/comments/${data.id}`, {
     'method': 'POST',
     'body': JSON.stringify(data),
-    headers
+    headers: API.headers
   }).then(res => res.json())
 }
 

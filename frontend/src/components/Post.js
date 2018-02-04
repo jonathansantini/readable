@@ -13,7 +13,13 @@ function Post (props) {
 
   return (
     <div className="post">
-      <h3 className="post__hdr">{post.title}</h3>
+      <h3 className="post__hdr">
+        <Link
+          className="post__hdr--link"
+          to={`/${post.category}/${post.id}`} >
+          {post.title}
+        </Link>
+      </h3>
       <div className="post__body">{post.body}</div>
       <div className="post__info">
         <span className="post__info--date">

@@ -39,7 +39,7 @@ class Nav extends Component {
   }
 
   render() {
-    const { categories } = this.props;
+    const { categories, hideFilter } = this.props;
 
     return (
       <Toolbar>
@@ -51,21 +51,22 @@ class Nav extends Component {
             ))}
           </DropDownMenu>
         </ToolbarGroup>
-        <ToolbarGroup lastChild={false}>
-          <IconMenu value={this.state.filter} onChange={this.handleFilter}
-            iconButtonElement={
-              <IconButton touch={true}>
-                <ContentSort />
-              </IconButton>
-            }
-          >
-            <MenuItem value="#day-asc" primaryText="By Day - Newest" />
-            <MenuItem value="#day-desc" primaryText="By Day - Oldest" />
-            <MenuItem value="#score-desc" primaryText="By Score - Most Popular" />
-            <MenuItem value="#score-asc" primaryText="By Score - Least Popular" />
-          </IconMenu>
-
-        </ToolbarGroup>
+        { !hideFilter && (
+          <ToolbarGroup lastChild={false}>
+            <IconMenu value={this.state.filter} onChange={this.handleFilter}
+                      iconButtonElement={
+                        <IconButton touch={true}>
+                          <ContentSort />
+                        </IconButton>
+                      }
+            >
+              <MenuItem value="#day-asc" primaryText="By Day - Newest" />
+              <MenuItem value="#day-desc" primaryText="By Day - Oldest" />
+              <MenuItem value="#score-desc" primaryText="By Score - Most Popular" />
+              <MenuItem value="#score-asc" primaryText="By Score - Least Popular" />
+            </IconMenu>
+          </ToolbarGroup>
+        )}
       </Toolbar>
     )
   }

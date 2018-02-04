@@ -9,6 +9,7 @@ import { withRouter } from 'react-router-dom';
 function Header ({ history }) {
   return (
     <AppBar title="readable"
+      showMenuIconButton={false}
       onTitleClick={() => history.push('/')} />
   )
 }

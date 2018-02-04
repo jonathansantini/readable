@@ -61,15 +61,12 @@ class PostDisplay extends Component {
 
   onDeleteOverlaySubmit() {
     const { postId, commentId } = this.state.deleteOverlay;
-
     if (postId) {
       this.props.deletePost(postId);
     }
-
     if (commentId) {
       this.props.deleteComment(commentId);
     }
-
     this.setState({
       deleteOverlay: {
         postId: '',
@@ -112,6 +109,7 @@ class PostDisplay extends Component {
           {isValidPost && postLoaded && commentsLoaded && (
             <div>
               <Nav category={category}
+                hideFilter={true}
                 categories={categories}
               />
               <Post post={post}
