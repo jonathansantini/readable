@@ -7,6 +7,7 @@ import Post from '../components/Post';
 import Comments from '../components/Comments';
 import AlertDialog from '../components/AlertDialog';
 import PageNotFound from "../components/PageNotFound";
+import Loading from '../components/Loading';
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CommentsHelper from '../utils/helpers/comments';
 import * as CategoryHelper from "../utils/helpers/categories";
@@ -130,6 +131,10 @@ class PostDisplay extends Component {
                 onRequestClose={this.onDeleteOverlaySubmit}
               />
           </div>
+        )}
+
+        {!postLoaded && (
+          <Loading />
         )}
 
         {!isValidPost && (

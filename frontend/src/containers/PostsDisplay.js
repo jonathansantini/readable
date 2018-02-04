@@ -6,6 +6,7 @@ import Nav from '../components/Nav';
 import Posts from '../components/Posts';
 import PageNotFound from '../components/PageNotFound';
 import AlertDialog from '../components/AlertDialog';
+import Loading from '../components/Loading';
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CategoryHelper from "../utils/helpers/categories";
 
@@ -99,7 +100,11 @@ class PostsDisplay extends Component {
           </div>
         )}
 
-        {!isValidCategory && (
+        {!postsLoaded && (
+          <Loading />
+        )}
+
+        {!isValidCategory && postsLoaded && (
           <PageNotFound />
         )}
       </div>

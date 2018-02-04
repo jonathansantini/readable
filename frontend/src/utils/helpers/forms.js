@@ -1,14 +1,5 @@
-export function isValidFormType (type) {
-  const validTypes = ['post', 'comment'];
-  return validTypes.includes(type);
-}
-
-export function isPostForm (type) {
-  return type === 'post' ? true : false;
-}
-
-export function isCommentForm (type) {
-  return type === 'comment' ? true : false
+export function isFormLoaded (id, loaded) {
+  return id && !loaded ? false : true;
 }
 
 export function generateRandomPostId() {

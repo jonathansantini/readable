@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { fetchPostById, handleAddPost, handleEditPost } from "../actions/posts";
 import FormPost from "../components/FormPost";
 import PageNotFound from "../components/PageNotFound";
+import Loading from '../components/Loading';
 import * as CategoryHelper from "../utils/helpers/categories";
 import * as PostHelper from "../utils/helpers/posts";
+import * as FormHelper from "../utils/helpers/forms";
 
 /**
  * Functional component used to display the post form.
@@ -19,7 +21,7 @@ class FormPostDisplay extends Component {
   }
 
   render() {
-    const { post={}, categories=[], category, handleAddPost, handleEditPost, isValidPost } = this.props;
+    const { post={}, categories=[], category, handleAddPost, handleEditPost, isValidPost, postLoaded } = this.props;
 
     return (
       <div className="form-post">
@@ -30,6 +32,10 @@ class FormPostDisplay extends Component {
             handleAddPost={handleAddPost}
             handleEditPost={handleEditPost}
           />
+        )}
+
+        { !postLoaded && (
+          <Loading />
         )}
 
         { !isValidPost && (
@@ -50,6 +56,7 @@ function mapStateToProps( state, ownProps ) {
     post,
     postId,
     category,
+    postLoaded: FormHelper.isFormLoaded(postId, posts.loaded),
     categories: CategoryHelper.getAllCategories(categories),
     isValidPost: PostHelper.isValidPost(post, posts.loaded)
   }

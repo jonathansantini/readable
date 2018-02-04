@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { fetchCommentById, handleAddComment, handleEditComment } from "../actions/comments";
 import FormComment from "../components/FormComment";
 import PageNotFound from "../components/PageNotFound";
+import Loading from '../components/Loading';
 import * as CommentsHelper from "../utils/helpers/comments";
 import * as CategoryHelper from "../utils/helpers/categories";
+import * as FormHelper from "../utils/helpers/forms";
 
 /**
  * Functional component used to display the post form.
@@ -19,7 +21,7 @@ class FormCommentDisplay extends Component {
   }
 
   render() {
-    const { comment, category, handleAddComment, handleEditComment, isValidComment } = this.props;
+    const { comment, category, handleAddComment, handleEditComment, isValidComment, formLoaded } = this.props;
 
     return (
       <div className="form-comment">
@@ -29,6 +31,10 @@ class FormCommentDisplay extends Component {
             handleAddComment={handleAddComment}
             handleEditComment={handleEditComment}
           />
+        )}
+
+        { !formLoaded && (
+          <Loading />
         )}
 
         { !isValidComment && (
@@ -50,6 +56,7 @@ function mapStateToProps( state, ownProps ) {
     category,
     commentId,
     comment,
+    formLoaded: FormHelper.isFormLoaded(commentId, comments.loaded),
     isValidComment: CommentsHelper.isValidComment(comment, comments.loaded),
     categories: CategoryHelper.getAllCategories(categories),
   }
