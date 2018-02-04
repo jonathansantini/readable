@@ -15,23 +15,17 @@ class PostDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deletePostOverlay: {
-        id: '',
-        open: false
+      deleteOverlay: {
+        open: false,
+        postId: '',
+        commentId: '',
+        message: '',
       },
-      deleteCommentOverlay: {
-        id: '',
-        open: false
-      }
     };
 
-    this.openDeletePostOverlay = this.openDeletePostOverlay.bind(this);
-    this.onDeletePostSubmit = this.onDeletePostSubmit.bind(this);
-    this.onDeletePostCancel = this.onDeletePostCancel.bind(this);
-
-    this.openDeleteCommentOverlay = this.openDeleteCommentOverlay.bind(this);
-    this.onDeleteCommentSubmit = this.onDeleteCommentSubmit.bind(this);
-    this.onDeleteCommentCancel = this.onDeleteCommentCancel.bind(this);
+    this.openDeleteOverlay = this.openDeleteOverlay.bind(this);
+    this.onDeleteOverlaySubmit = this.onDeleteOverlaySubmit.bind(this);
+    this.onDeleteOverlayCancel = this.onDeleteOverlayCancel.bind(this);
   }
 
   componentDidMount() {
@@ -42,57 +36,49 @@ class PostDisplay extends Component {
     }
   }
 
-  openDeletePostOverlay(id) {
+  openDeleteOverlay(data) {
+    const { postId, commentId } = data;
+
+    const message = postId ? 'You sure you want to delete this post?' :
+                    commentId ? 'You sure you want to delete this comment?' : '';
+
     this.setState({
-      deletePostOverlay: {
-        id,
+      deleteOverlay: {
+        postId,
+        commentId,
+        message,
         open: true
       }
     })
   }
 
-  onDeletePostSubmit() {
-    this.props.deletePost(this.state.deletePostOverlay.id);
+  onDeleteOverlaySubmit() {
+    const { postId, commentId } = this.state.deleteOverlay;
+
+    if (postId) {
+      this.props.deletePost(postId);
+    }
+
+    if (commentId) {
+      this.props.deleteComment(commentId);
+    }
+
     this.setState({
-      deletePostOverlay: {
-        id: '',
+      deleteOverlay: {
+        postId: '',
+        commentId: '',
+        message: '',
         open: false
       }
     })
   }
 
-  onDeletePostCancel() {
+  onDeleteOverlayCancel() {
     this.setState({
-      deletePostOverlay: {
-        id: '',
-        open: false
-      }
-    })
-  }
-
-  openDeleteCommentOverlay(id) {
-    this.setState({
-      deleteCommentOverlay: {
-        id,
-        open: true
-      }
-    })
-  }
-
-  onDeleteCommentSubmit() {
-    this.props.deleteComment(this.state.deleteCommentOverlay.id);
-    this.setState({
-      deleteCommentOverlay: {
-        id: '',
-        open: false
-      }
-    })
-  }
-
-  onDeleteCommentCancel() {
-    this.setState({
-      deleteCommentOverlay: {
-        id: '',
+      deleteOverlay: {
+        postId: '',
+        commentId: '',
+        message: '',
         open: false
       }
     })
@@ -112,8 +98,9 @@ class PostDisplay extends Component {
       commentsLoaded
     } = this.props;
 
-    return (
+    const { deleteOverlay } = this.state;
 
+    return (
       <div className="post-wrapper">
           {isValidPost && postLoaded && commentsLoaded && (
             <div>
@@ -122,25 +109,19 @@ class PostDisplay extends Component {
               />
               <Post post={post}
                 handlePostVote={handlePostVote}
-                openDeletePostOverlay={this.openDeletePostOverlay}
+                openDeleteOverlay={this.openDeleteOverlay}
               />
               <Comments comments={comments}
                 postId={postId}
                 category={category}
                 handleCommentVote={handleCommentVote}
-                openDeleteCommentOverlay={this.openDeleteCommentOverlay}
+                openDeleteOverlay={this.openDeleteOverlay}
               />
               <AlertDialog
-                open={this.state.deletePostOverlay.open}
-                message='You sure you want to delete this post?'
-                onCancel={this.onDeletePostCancel}
-                onRequestClose={this.onDeletePostSubmit}
-              />
-              <AlertDialog
-                open={this.state.deleteCommentOverlay.open}
-                message='You sure you want to delete this comment?'
-                onCancel={this.onDeleteCommentCancel}
-                onRequestClose={this.onDeleteCommentSubmit}
+                open={deleteOverlay.open}
+                message={deleteOverlay.message}
+                onCancel={this.onDeleteOverlayCancel}
+                onRequestClose={this.onDeleteOverlaySubmit}
               />
           </div>
         )}

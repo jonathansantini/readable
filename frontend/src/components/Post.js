@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
  * @extends React
  */
 function Post (props) {
-  const { post, openDeletePostOverlay, handlePostVote } = props;
+  const { post, openDeleteOverlay, handlePostVote } = props;
 
   return (
     <div className="post">
@@ -31,7 +31,7 @@ function Post (props) {
           className="post__controls--link">
           <RaisedButton label="Edit" primary={true} />
         </Link>
-        <RaisedButton onClick={() => openDeletePostOverlay(post.id)} label="Delete" secondary={true} />
+        <RaisedButton onClick={() => openDeleteOverlay({postId: post.id})} label="Delete" secondary={true} />
       </div>
       <div className="post__vote">
         <VoteScore id={post.id}
@@ -46,7 +46,7 @@ function Post (props) {
 Post.propTypes = {
   post: PropTypes.object.isRequired,
   handlePostVote: PropTypes.func.isRequired,
-  openDeletePostOverlay: PropTypes.func.isRequired
+  openDeleteOverlay: PropTypes.func.isRequired
 }
 
 export default Post;

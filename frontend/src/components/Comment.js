@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
  * @extends React
  */
 function Comment (props) {
-  const { comment, category, postId, openDeleteCommentOverlay, handleCommentVote } = props;
+  const { comment, category, postId, openDeleteOverlay, handleCommentVote } = props;
 
   return (
     <div className="comment">
@@ -26,7 +26,7 @@ function Comment (props) {
           className="comment__actions--item">
           <RaisedButton label="Edit" primary={true} />
         </Link>
-        <RaisedButton label="Delete" onClick={() => openDeleteCommentOverlay(comment.id)} secondary={true} />
+        <RaisedButton label="Delete" onClick={() => openDeleteOverlay({commentId: comment.id})} secondary={true} />
       </div>
       <div className="comment__vote">
         <VoteScore id={comment.id}
@@ -42,7 +42,7 @@ Comment.propTypes = {
   category: PropTypes.string.isRequired,
   comment: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
-  openDeleteCommentOverlay: PropTypes.func.isRequired,
+  openDeleteOverlay: PropTypes.func.isRequired,
   handleCommentVote: PropTypes.func.isRequired
 }
 

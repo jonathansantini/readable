@@ -6,7 +6,6 @@ import Nav from '../components/Nav';
 import Posts from '../components/Posts';
 import PageNotFound from '../components/PageNotFound';
 import AlertDialog from '../components/AlertDialog';
-
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CategoryHelper from "../utils/helpers/categories";
 
@@ -14,15 +13,15 @@ class PostsDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      deletePostOverlay: {
-        id: '',
-        open: false
-      }
+      deleteOverlay: {
+        open: false,
+        postId: '',
+      },
     };
 
-    this.openDeletePostOverlay = this.openDeletePostOverlay.bind(this);
-    this.onDeletePostSubmit = this.onDeletePostSubmit.bind(this);
-    this.onDeletePostCancel = this.onDeletePostCancel.bind(this);
+    this.openDeleteOverlay = this.openDeleteOverlay.bind(this);
+    this.onDeleteOverlaySubmit = this.onDeleteOverlaySubmit.bind(this);
+    this.onDeleteOverlayCancel = this.onDeleteOverlayCancel.bind(this);
   }
 
   componentDidMount() {
@@ -37,29 +36,37 @@ class PostsDisplay extends Component {
     }
   }
 
-  openDeletePostOverlay(id) {
+  openDeleteOverlay(data) {
+    const { postId } = data;
+
     this.setState({
-      deletePostOverlay: {
-        id,
+      deleteOverlay: {
+        postId,
         open: true
       }
     })
   }
 
-  onDeletePostSubmit() {
-    this.props.deletePost(this.state.deletePostOverlay.id);
+  onDeleteOverlaySubmit() {
+    const { postId } = this.state.deleteOverlay;
+
+    if (postId) {
+      this.props.deletePost(postId);
+    }
+
     this.setState({
-      deletePostOverlay: {
-        id: '',
+      deleteOverlay: {
+        postId: '',
         open: false
       }
     })
   }
 
-  onDeletePostCancel() {
+  onDeleteOverlayCancel() {
     this.setState({
-      deletePostOverlay: {
-        id: '',
+      deleteOverlay: {
+        postId: '',
+        commentId: '',
         open: false
       }
     })
@@ -67,6 +74,7 @@ class PostsDisplay extends Component {
 
   render() {
     const { posts, category, categories=[], postsLoaded, handlePostVote, isValidCategory } = this.props;
+    const { deleteOverlay } = this.state;
 
     return (
       <div className="posts">
@@ -79,14 +87,14 @@ class PostsDisplay extends Component {
             <Posts posts={posts}
               category={category}
               handlePostVote={handlePostVote}
-              openDeletePostOverlay={this.openDeletePostOverlay}
+              openDeleteOverlay={this.openDeleteOverlay}
             />
 
             <AlertDialog
-              open={this.state.deletePostOverlay.open}
+              open={deleteOverlay.open}
               message='You sure you want to delete this post?'
-              onCancel={this.onDeletePostCancel}
-              onRequestClose={this.onDeletePostSubmit}
+              onCancel={this.onDeleteOverlayCancel}
+              onRequestClose={this.onDeleteOverlaySubmit}
             />
           </div>
         )}
@@ -102,16 +110,17 @@ class PostsDisplay extends Component {
 function mapStateToProps( state, ownProps ) {
   const category = ownProps.match.params.category;
   const filter = ownProps.location.hash;
-  const { posts, categories } = state;
+  const { posts, categories, deleteOverlay } = state;
   const postsArray = PostsHelper.formatPosts(posts);
   const isValidCategory = CategoryHelper.isValidCategory(category, categories);
 
   return {
     category,
     isValidCategory,
+    deleteOverlay,
     posts: PostsHelper.filterPosts(postsArray, filter),
     postsLoaded: posts.loaded,
-    categories: CategoryHelper.getAllCategories(categories)
+    categories: CategoryHelper.getAllCategories(categories),
   }
 }
 

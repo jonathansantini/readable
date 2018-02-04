@@ -10,7 +10,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
  * @extends React
  */
 function Posts (props) {
-  const { posts=[] , category, openDeletePostOverlay, handlePostVote } = props;
+  const { posts=[] , category, openDeleteOverlay, handlePostVote } = props;
 
   return (
     <div className="posts">
@@ -20,7 +20,7 @@ function Posts (props) {
             <li key={post.id} className="posts__list--item">
               <PostSummary post={post}
                category={category}
-               openDeletePostOverlay={openDeletePostOverlay}
+               openDeleteOverlay={openDeleteOverlay}
                handlePostVote={handlePostVote}
               />
             </li>
@@ -48,7 +48,7 @@ function Posts (props) {
 
 Posts.propTypes = {
   posts: PropTypes.array.isRequired,
-  openDeletePostOverlay: PropTypes.func.isRequired,
+  openDeleteOverlay: PropTypes.func.isRequired,
   handlePostVote: PropTypes.func.isRequired
 }
 
