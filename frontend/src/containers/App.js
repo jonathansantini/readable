@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route, withRouter } from 'react-router-dom';
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import { fetchCategories } from '../actions/categories';
 import Header from '../components/Header';
 import PostDisplay from '../containers/PostDisplay';
@@ -19,6 +19,7 @@ class App extends Component {
       <div className="readable">
         <Header />
         <Switch>
+          <Redirect from='/all' to='/' />
           <Route exact path="/create-post" component={FormPostDisplay} />
           <Route exact path="/:category" component={PostsDisplay} />
           <Route exact path="/:category/create" component={FormPostDisplay} />

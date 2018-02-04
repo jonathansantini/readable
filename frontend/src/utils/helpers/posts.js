@@ -1,16 +1,20 @@
+export function isValidPost (post, loaded) {
+  const hasKeys = Object.keys(post).length > 1;
+  return loaded && !hasKeys ? false : true;
+}
+
 export function formatPost (posts) {
   return posts.allIds ? posts.allIds.reduce((p, id) => {
-    return posts.byId[id];
+    const post = posts.byId[id];
+    return post && !post.deleted ? post : {};
   }, {}) : {};
 }
 
 export function formatPosts (posts, sort) {
   return posts.allIds ? posts.allIds.reduce((p, id) => {
     const post = posts.byId[id];
-    if (!post.deleted) {
+    if (!post.deleted && !post.error) {
       p.push(post);
-      if (sort) {
-      }
     }
     return p;
   }, []) : [];

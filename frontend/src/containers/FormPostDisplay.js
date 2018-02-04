@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import {fetchPostById, handleAddPost, handleEditPost } from "../actions/posts";
+import { fetchPostById, handleAddPost, handleEditPost } from "../actions/posts";
 import FormPost from "../components/FormPost";
+import PageNotFound from "../components/PageNotFound";
 import * as CategoryHelper from "../utils/helpers/categories";
 import * as PostHelper from "../utils/helpers/posts";
 
@@ -12,23 +13,28 @@ import * as PostHelper from "../utils/helpers/posts";
 class FormPostDisplay extends Component {
   componentDidMount() {
     const { postId, fetchPostById } = this.props;
-
     if (postId) {
       fetchPostById(postId);
     }
   }
 
   render() {
-    const { post={}, categories=[], category, handleAddPost, handleEditPost } = this.props;
+    const { post={}, categories=[], category, handleAddPost, handleEditPost, isValidPost } = this.props;
 
     return (
       <div className="form-post">
-        <FormPost post={post}
-          category={category}
-          categories={categories}
-          handleAddPost={handleAddPost}
-          handleEditPost={handleEditPost}
-        />
+        { isValidPost && (
+          <FormPost post={post}
+            category={category}
+            categories={categories}
+            handleAddPost={handleAddPost}
+            handleEditPost={handleEditPost}
+          />
+        )}
+
+        { !isValidPost && (
+          <PageNotFound />
+        )}
       </div>
     )
   }
@@ -44,7 +50,8 @@ function mapStateToProps( state, ownProps ) {
     post,
     postId,
     category,
-    categories: CategoryHelper.getAllCategories(categories)
+    categories: CategoryHelper.getAllCategories(categories),
+    isValidPost: PostHelper.isValidPost(post, posts.loaded)
   }
 }
 

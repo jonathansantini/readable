@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Header from '../components/Header';
+import { withRouter } from 'react-router-dom';
 
 /**
  * Functional component used to display a page not found.
@@ -9,7 +9,6 @@ import Header from '../components/Header';
 function PageNotFound () {
   return (
     <div>
-      <Header />
       <div className="page-not-found">
         <div className="page-not-found__copy">
           Oops...Looks like something went wrong!
@@ -22,4 +21,4 @@ function PageNotFound () {
   )
 }
 
-export default PageNotFound;
+export default withRouter(PageNotFound);

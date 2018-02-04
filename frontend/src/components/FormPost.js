@@ -26,11 +26,20 @@ class FormPost extends Component {
     this.handleSelectChange = this.handleSelectChange.bind(this);
   }
 
+  componentWillMount() {
+    this.setState({
+      post: {
+        ...this.state.post,
+        category: this.props.category
+      }
+    });
+  }
+
   componentWillReceiveProps(prevProps) {
     // Set post to state if it is passed via props
     const postData = prevProps.post || {};
     const post = postData.id ? postData : this.state.post;
-    const category = prevProps.category ? prevProps.category : postData.category;
+    const category = postData.category ? postData.category : this.state.category;
 
     this.setState({
       post: {

@@ -32,7 +32,6 @@ class Nav extends Component {
   }
 
   handleFilter(e, value) {
-    console.log(value)
     this.setState({
       filter: value
     })

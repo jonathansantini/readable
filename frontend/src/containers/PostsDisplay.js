@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchPosts, deletePost, handlePostVote } from '../actions/posts';
 import Nav from '../components/Nav';
 import Posts from '../components/Posts';
+import PageNotFound from '../components/PageNotFound';
 import AlertDialog from '../components/AlertDialog';
 
 import * as PostsHelper from '../utils/helpers/posts';
@@ -65,27 +66,34 @@ class PostsDisplay extends Component {
   }
 
   render() {
-    const { posts, category, categories, postsLoaded, handlePostVote } = this.props;
+    const { posts, category, categories=[], postsLoaded, handlePostVote, isValidCategory } = this.props;
 
     return (
       <div className="posts">
-        <Nav category={category}
-          categories={categories}
-        />
-        { postsLoaded && (
-          <Posts posts={posts}
-           category={category}
-           handlePostVote={handlePostVote}
-           openDeletePostOverlay={this.openDeletePostOverlay}
-          />
+        { postsLoaded && isValidCategory && (
+          <div>
+            <Nav category={category}
+              categories={categories}
+            />
+
+            <Posts posts={posts}
+              category={category}
+              handlePostVote={handlePostVote}
+              openDeletePostOverlay={this.openDeletePostOverlay}
+            />
+
+            <AlertDialog
+              open={this.state.deletePostOverlay.open}
+              message='You sure you want to delete this post?'
+              onCancel={this.onDeletePostCancel}
+              onRequestClose={this.onDeletePostSubmit}
+            />
+          </div>
         )}
 
-        <AlertDialog
-          open={this.state.deletePostOverlay.open}
-          message='You sure you want to delete this post?'
-          onCancel={this.onDeletePostCancel}
-          onRequestClose={this.onDeletePostSubmit}
-        />
+        {!isValidCategory && (
+          <PageNotFound />
+        )}
       </div>
     );
   }
@@ -96,9 +104,11 @@ function mapStateToProps( state, ownProps ) {
   const filter = ownProps.location.hash;
   const { posts, categories } = state;
   const postsArray = PostsHelper.formatPosts(posts);
+  const isValidCategory = CategoryHelper.isValidCategory(category, categories);
 
   return {
     category,
+    isValidCategory,
     posts: PostsHelper.filterPosts(postsArray, filter),
     postsLoaded: posts.loaded,
     categories: CategoryHelper.getAllCategories(categories)

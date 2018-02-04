@@ -19,7 +19,7 @@ class AlertDialog extends Component {
         onClick={onCancel}
       />,
       <FlatButton
-        label="Discard"
+        label="Delete"
         primary={true}
         onClick={onRequestClose}
       />,

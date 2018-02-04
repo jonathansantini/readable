@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { fetchCommentById, handleAddComment, handleEditComment } from "../actions/comments";
 import FormComment from "../components/FormComment";
+import PageNotFound from "../components/PageNotFound";
 import * as CommentsHelper from "../utils/helpers/comments";
 import * as CategoryHelper from "../utils/helpers/categories";
 
@@ -18,15 +19,21 @@ class FormCommentDisplay extends Component {
   }
 
   render() {
-    const { comment={}, category, handleAddComment, handleEditComment } = this.props;
+    const { comment, category, handleAddComment, handleEditComment, isValidComment } = this.props;
 
     return (
       <div className="form-comment">
-        <FormComment comment={comment}
-          category={category}
-          handleAddComment={handleAddComment}
-          handleEditComment={handleEditComment}
-        />
+        { isValidComment && (
+          <FormComment comment={comment}
+            category={category}
+            handleAddComment={handleAddComment}
+            handleEditComment={handleEditComment}
+          />
+        )}
+
+        { !isValidComment && (
+          <PageNotFound />
+        )}
       </div>
     )
   }
@@ -34,13 +41,16 @@ class FormCommentDisplay extends Component {
 
 function mapStateToProps( state, ownProps ) {
   const { categories, comments } = state;
-  const category = ownProps.match.params.category || 'post';
+
+  const category = ownProps.match.params.category;
   const commentId = ownProps.match.params.comment_id;
+  const comment = CommentsHelper.formatComment(commentId, comments);
 
   return {
     category,
     commentId,
-    comment: CommentsHelper.formatComment(commentId, comments),
+    comment,
+    isValidComment: CommentsHelper.isValidComment(comment, comments.loaded),
     categories: CategoryHelper.getAllCategories(categories),
   }
 }

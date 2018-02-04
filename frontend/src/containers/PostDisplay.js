@@ -5,10 +5,11 @@ import { fetchComments, deleteComment, handleCommentVote } from '../actions/comm
 import Nav from '../components/Nav';
 import Post from '../components/Post';
 import Comments from '../components/Comments';
+import AlertDialog from '../components/AlertDialog';
+import PageNotFound from "../components/PageNotFound";
 import * as PostsHelper from '../utils/helpers/posts';
 import * as CommentsHelper from '../utils/helpers/comments';
 import * as CategoryHelper from "../utils/helpers/categories";
-import AlertDialog from '../components/AlertDialog';
 
 class PostDisplay extends Component {
   constructor(props) {
@@ -35,8 +36,10 @@ class PostDisplay extends Component {
 
   componentDidMount() {
     const { postId, fetchPostById, fetchComments } = this.props;
-    fetchPostById(postId);
-    fetchComments([postId]);
+    if (postId) {
+      fetchPostById(postId);
+      fetchComments([postId]);
+    }
   }
 
   openDeletePostOverlay(id) {
@@ -101,64 +104,70 @@ class PostDisplay extends Component {
       postId,
       comments,
       category,
-      categories,
+      categories=[],
       handlePostVote,
       handleCommentVote,
+      isValidPost,
       postLoaded,
       commentsLoaded
     } = this.props;
 
     return (
+
       <div className="post-wrapper">
-        <Nav category={category}
-           categories={categories}
-        />
-        {postLoaded && (
-          <Post post={post}
-            handlePostVote={handlePostVote}
-            openDeletePostOverlay={this.openDeletePostOverlay}
-          />
-        )}
-        {commentsLoaded && (
-          <Comments comments={comments}
-            postId={postId}
-            category={category}
-            handleCommentVote={handleCommentVote}
-            openDeleteCommentOverlay={this.openDeleteCommentOverlay}
-          />
+          {isValidPost && postLoaded && commentsLoaded && (
+            <div>
+              <Nav category={category}
+                categories={categories}
+              />
+              <Post post={post}
+                handlePostVote={handlePostVote}
+                openDeletePostOverlay={this.openDeletePostOverlay}
+              />
+              <Comments comments={comments}
+                postId={postId}
+                category={category}
+                handleCommentVote={handleCommentVote}
+                openDeleteCommentOverlay={this.openDeleteCommentOverlay}
+              />
+              <AlertDialog
+                open={this.state.deletePostOverlay.open}
+                message='You sure you want to delete this post?'
+                onCancel={this.onDeletePostCancel}
+                onRequestClose={this.onDeletePostSubmit}
+              />
+              <AlertDialog
+                open={this.state.deleteCommentOverlay.open}
+                message='You sure you want to delete this comment?'
+                onCancel={this.onDeleteCommentCancel}
+                onRequestClose={this.onDeleteCommentSubmit}
+              />
+          </div>
         )}
 
-        <AlertDialog
-          open={this.state.deletePostOverlay.open}
-          message='You sure you want to delete this post?'
-          onCancel={this.onDeletePostCancel}
-          onRequestClose={this.onDeletePostSubmit}
-        />
-
-        <AlertDialog
-          open={this.state.deleteCommentOverlay.open}
-          message='You sure you want to delete this comment?'
-          onCancel={this.onDeleteCommentCancel}
-          onRequestClose={this.onDeleteCommentSubmit}
-        />
+        {!isValidPost && (
+          <PageNotFound />
+        )}
       </div>
     );
   }
 }
 
 function mapStateToProps( state, ownProps ) {
+  const { posts, comments, categories } = state;
   const postId = ownProps.match.params.post_id;
   const category = ownProps.match.params.category;
-  const { posts, comments, categories } = state;
+  const post = PostsHelper.formatPost(posts);
 
   return {
     category,
+    post,
     postId,
     comments: CommentsHelper.formatComments(comments),
     commentsLoaded: comments.loaded,
-    post: PostsHelper.formatPost(posts),
     postLoaded: posts.loaded,
-    categories: CategoryHelper.getAllCategories(categories)
+    categories: CategoryHelper.getAllCategories(categories),
+    isValidPost: PostsHelper.isValidPost(post, posts.loaded)
   }
 }
 
