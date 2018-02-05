@@ -54,9 +54,10 @@ class PostsDisplay extends Component {
 
   onDeleteOverlaySubmit() {
     const { postId } = this.state.deleteOverlay;
+    const { category } = this.props;
 
     if (postId) {
-      this.props.deletePost(postId);
+      this.props.deletePost({postId, category});
     }
 
     this.setState({
@@ -133,9 +134,9 @@ function mapStateToProps( state, ownProps ) {
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
-    deletePost: data => deletePost(data, dispatch),
+    deletePost: data => deletePost(data, dispatch, ownProps),
     fetchPosts: data => fetchPosts(data, dispatch),
     handlePostVote: data => handlePostVote(data, dispatch)
   }

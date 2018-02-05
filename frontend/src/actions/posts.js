@@ -34,9 +34,11 @@ export const fetchPostById = (id, dispatch) => {
  * Action that handles deleting a post by id.
  * @returns {object} promise that post is deleted
  */
-export const deletePost = (id, dispatch) => {
-  return PostsAPI.deletePost(id)
-    .then(() => dispatch(deletedPost(id)))
+export const deletePost = (data, dispatch, ownProps) => {
+  const { postId, category } = data;
+  return PostsAPI.deletePost(postId)
+    .then(() => dispatch(deletedPost(postId)))
+    .then(ownProps.history.push(`/${category}`))
 };
 
 /**

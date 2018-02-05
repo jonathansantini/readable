@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { fetchPostById, deletePost, handlePostVote } from '../actions/posts';
 import { fetchComments, deleteComment, handleCommentVote } from '../actions/comments';
 import Nav from '../components/Nav';
@@ -66,8 +67,10 @@ class PostDisplay extends Component {
 
   onDeleteOverlaySubmit() {
     const { postId, commentId } = this.state.deleteOverlay;
+    const { category } = this.props;
+
     if (postId) {
-      this.props.deletePost(postId);
+      this.props.deletePost({postId, category});
     }
     if (commentId) {
       this.props.deleteComment(commentId);
@@ -118,6 +121,7 @@ class PostDisplay extends Component {
                 categories={categories}
               />
               <Post post={post}
+                disableHeaderLink={true}
                 hideEditBtn={true}
                 handlePostVote={handlePostVote}
                 openDeleteOverlay={this.openDeleteOverlay}
@@ -163,19 +167,21 @@ function mapStateToProps( state, ownProps ) {
     commentsLoaded: comments.loaded,
     postLoaded: posts.loaded,
     categories: CategoryHelper.getAllCategories(categories),
-    isValidPost: PostsHelper.isValidPost(post, posts.loaded)
+    isValidPost: PostsHelper.isValidPost(post, postId, posts.loaded)
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch, ownProps) {
   return {
     fetchPostById: id => fetchPostById(id, dispatch),
     fetchComments: ids => fetchComments(ids, dispatch),
-    deletePost: data => deletePost(data, dispatch),
+    deletePost: data => deletePost(data, dispatch, ownProps),
     deleteComment: id => deleteComment(id, dispatch),
     handlePostVote: data => handlePostVote(data, dispatch),
     handleCommentVote: data => handleCommentVote(data, dispatch)
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostDisplay);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(PostDisplay)
+);

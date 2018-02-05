@@ -1,6 +1,6 @@
-export function isValidComment (comment, loaded) {
+export function isValidComment (comment, commentId, loaded) {
   const hasKeys = Object.keys(comment).length > 0;
-  return loaded && !hasKeys && comment.id ? false : true;
+  return loaded && !hasKeys && commentId ? false : true;
 }
 
 export function formatComment (id, comments) {

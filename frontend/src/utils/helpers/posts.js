@@ -1,6 +1,6 @@
-export function isValidPost (post, loaded) {
+export function isValidPost (post, postId, loaded) {
   const hasKeys = Object.keys(post).length > 1;
-  return loaded && !hasKeys && post.id ? false : true;
+  return loaded && !hasKeys && postId ? false : true;
 }
 
 export function formatPost (posts) {

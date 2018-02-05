@@ -9,16 +9,20 @@ import RaisedButton from 'material-ui/RaisedButton';
  * @extends React
  */
 function Post (props) {
-  const { post, hideEditBtn, openDeleteOverlay, handlePostVote } = props;
+  const { post, hideEditBtn, disableHeaderLink, openDeleteOverlay, handlePostVote } = props;
 
   return (
     <div className="post">
       <h3 className="post__hdr">
-        <Link
-          className="post__hdr--link"
-          to={`/${post.category}/${post.id}`} >
-          {post.title}
-        </Link>
+        { disableHeaderLink ? (
+          post.title
+        ) : (
+          <Link
+            className="post__hdr--link"
+            to={`/${post.category}/${post.id}`} >
+            {post.title}
+          </Link>
+        )}
       </h3>
       <div className="post__body">{post.body}</div>
       <div className="post__info">

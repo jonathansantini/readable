@@ -58,7 +58,7 @@ function mapStateToProps( state, ownProps ) {
     commentId,
     comment,
     formLoaded: FormHelper.isFormLoaded(commentId, comments.loaded),
-    isValidComment: CommentsHelper.isValidComment(comment, comments.loaded),
+    isValidComment: CommentsHelper.isValidComment(comment, commentId, comments.loaded),
     categories: CategoryHelper.getAllCategories(categories),
   }
 }

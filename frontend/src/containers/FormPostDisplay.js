@@ -59,7 +59,7 @@ function mapStateToProps( state, ownProps ) {
     category,
     postLoaded: FormHelper.isFormLoaded(postId, posts.loaded),
     categories: CategoryHelper.getAllCategories(categories),
-    isValidPost: PostHelper.isValidPost(post, posts.loaded)
+    isValidPost: PostHelper.isValidPost(post, postId, posts.loaded)
   }
 }
 
