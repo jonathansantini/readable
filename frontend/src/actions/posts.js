@@ -36,9 +36,10 @@ export const fetchPostById = (id, dispatch) => {
  */
 export const deletePost = (data, dispatch, ownProps) => {
   const { postId, category } = data;
+  const path = category ? `/${category}` : `/`;
   return PostsAPI.deletePost(postId)
     .then(() => dispatch(deletedPost(postId)))
-    .then(ownProps.history.push(`/${category}`))
+    .then(ownProps.history.push(path))
 };
 
 /**
